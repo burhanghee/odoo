@@ -2177,7 +2177,7 @@ msgstr "تحرير السجل "
 #: code:addons/web/static/src/views/kanban/kanban_renderer.js:0
 #, python-format
 msgid "Edit: %s"
-msgstr ""
+msgstr "تحرير: %s "
 
 #. module: web
 #. openerp-web
@@ -3226,7 +3226,7 @@ msgstr "قواعد سجلات النموذج "
 #: code:addons/web/static/src/views/fields/field_tooltip.xml:0
 #, python-format
 msgid "Model:"
-msgstr "الكائن:"
+msgstr "النموذج: "
 
 #. module: web
 #: model:ir.model,name:web.model_ir_model
