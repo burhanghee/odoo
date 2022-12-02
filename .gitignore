@@ -47,7 +47,7 @@ package.json
 /man/
 /share/
 /src/
-
+/testing
 # avoid adding it after generation from tsconfig command
 tsconfig.json
 ax-addons/
