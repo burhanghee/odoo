@@ -232,8 +232,9 @@ class AccountMove(models.Model):
 
                     # Search for anglo-saxon lines linked to the product in the stock moves.
                     product_stock_moves = stock_moves.filtered(lambda stock_move: stock_move.product_id == prod)
-                    product_account_moves += product_stock_moves.mapped('account_move_ids.line_ids')\
-                        .filtered(lambda line: line.account_id == product_interim_account and not line.reconciled)
+                    product_account_moves |= product_stock_moves._get_all_related_aml().filtered(
+                        lambda line: line.account_id == product_interim_account and not line.reconciled
+                    )
 
                     # Reconcile.
                     if any(aml.amount_currency and not aml.balance for aml in product_account_moves):
@@ -290,16 +291,7 @@ class AccountMoveLine(models.Model):
             if not layers:
                 continue
 
-            price_unit = -line.price_unit if move.move_type == 'in_refund' else line.price_unit
-            price_unit = price_unit * (1 - (line.discount or 0.0) / 100.0)
-            if line.tax_ids:
-                prec = 1e+6
-                price_unit *= prec
-                price_unit = line.tax_ids.with_context(round=False).compute_all(
-                    price_unit, currency=move.currency_id, quantity=1.0, is_refund=move.move_type == 'in_refund',
-                    fixed_multiplicator=move.direction_sign,
-                )['total_excluded']
-                price_unit /= prec
+            price_unit = line._get_gross_unit_price()
             price_unit = line.currency_id._convert(price_unit, line.company_id.currency_id, line.company_id, line.date, round=False)
             price_unit = line.product_uom_id._compute_price(price_unit, line.product_id.uom_id)
             layers_price_unit = line._get_stock_valuation_layers_price_unit(layers)
@@ -310,6 +302,20 @@ class AccountMoveLine(models.Model):
     def _eligible_for_cogs(self):
         self.ensure_one()
         return self.product_id.type == 'product' and self.product_id.valuation == 'real_time'
+
+    def _get_gross_unit_price(self):
+        price_unit = -self.price_unit if self.move_id.move_type == 'in_refund' else self.price_unit
+        price_unit = price_unit * (1 - (self.discount or 0.0) / 100.0)
+        if not self.tax_ids:
+            return price_unit
+        prec = 1e+6
+        price_unit *= prec
+        price_unit = self.tax_ids.with_context(round=False).compute_all(
+            price_unit, currency=self.move_id.currency_id, quantity=1.0, is_refund=self.move_id.move_type == 'in_refund',
+            fixed_multiplicator=self.move_id.direction_sign,
+        )['total_excluded']
+        price_unit /= prec
+        return price_unit
 
     def _get_stock_valuation_layers(self, move):
         valued_moves = self._get_valued_in_moves()
@@ -353,7 +359,7 @@ class AccountMoveLine(models.Model):
             if float_is_zero(unit_valuation_difference * qty_to_correct, precision_rounding=self.company_id.currency_id.rounding):
                 continue
             po_pu_curr = po_line.currency_id._convert(po_line.price_unit, self.currency_id, self.company_id, self.date, round=False)
-            price_difference_curr = po_pu_curr - self.price_unit
+            price_difference_curr = po_pu_curr - self._get_gross_unit_price()
             layers_to_correct[layer] = (qty_to_correct, unit_valuation_difference, price_difference_curr)
         return layers_to_correct
 
