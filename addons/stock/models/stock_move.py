@@ -1093,7 +1093,7 @@ Please change the quantity done or the rounding precision of your unit of measur
         if self.product_uom.factor > self.product_id.uom_id.factor:
             return {
                 'warning': {
-                    'title': "Unsafe unit of measure",
+                    'title': _("Unsafe unit of measure"),
                     'message': _("You are using a unit of measure smaller than the one you are using in "
                                  "order to stock your product. This can lead to rounding problem on reserved quantity. "
                                  "You should use the smaller unit of measure possible in order to valuate your stock or "
@@ -1720,8 +1720,8 @@ Please change the quantity done or the rounding precision of your unit of measur
         return extra_move | self
 
     def _action_done(self, cancel_backorder=False):
-        self.filtered(lambda move: move.state == 'draft')._action_confirm()  # MRP allows scrapping draft moves
-        moves = self.exists().filtered(lambda x: x.state not in ('done', 'cancel'))
+        moves = self.filtered(lambda move: move.state == 'draft')._action_confirm()  # MRP allows scrapping draft moves
+        moves = (self | moves).exists().filtered(lambda x: x.state not in ('done', 'cancel'))
         moves_ids_todo = OrderedSet()
 
         # Cancel moves where necessary ; we should do it before creating the extra moves because

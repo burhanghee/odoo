@@ -567,13 +567,13 @@ class SaleOrder(models.Model):
                 order.partner_credit_warning = self.env['account.move']._build_credit_warning_message(
                     order, updated_credit)
 
-    @api.depends('order_line.tax_id', 'order_line.price_unit', 'amount_total', 'amount_untaxed')
+    @api.depends('order_line.tax_id', 'order_line.price_unit', 'amount_total', 'amount_untaxed', 'currency_id')
     def _compute_tax_totals(self):
         for order in self:
             order_lines = order.order_line.filtered(lambda x: not x.display_type)
             order.tax_totals = self.env['account.tax']._prepare_tax_totals(
                 [x._convert_to_tax_base_line_dict() for x in order_lines],
-                order.currency_id,
+                order.currency_id or order.company_id.currency_id,
             )
 
     @api.depends('state')
@@ -904,7 +904,7 @@ class SaleOrder(models.Model):
     def _show_cancel_wizard(self):
         """ Decide whether the sale.order.cancel wizard should be shown to cancel specified orders.
 
-        :return: True if there are draft order(s) in the given orders
+        :return: True if there is any non-draft order in the given orders
         :rtype: bool
         """
         if self.env.context.get('disable_cancel_warning'):
