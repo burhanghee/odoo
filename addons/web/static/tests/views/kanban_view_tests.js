@@ -7954,7 +7954,7 @@ QUnit.module("Views", (hooks) => {
             3,
             "there should now be 3 records in the column"
         );
-        assert.verifySteps(["2 - 0", "2 - 0", "2 - 2"], "the records should be correctly fetched");
+        assert.verifySteps(["2 - 0", "2 - 0", "4 - 0"], "the records should be correctly fetched");
         assert.deepEqual(getCardTexts(1), ["1", "2", "3"]);
 
         // reload
@@ -7967,12 +7967,10 @@ QUnit.module("Views", (hooks) => {
             "there should still be 3 records in the column after reload"
         );
         assert.deepEqual(getCardTexts(1), ["1", "2", "3"]);
-        assert.verifySteps(["2 - 0", "3 - 0"]);
+        assert.verifySteps(["2 - 0", "4 - 0"]);
     });
 
     QUnit.test("load more records in column with x2many", async (assert) => {
-        assert.expect(10);
-
         serverData.models.partner.records[0].category_ids = [7];
         serverData.models.partner.records[1].category_ids = [];
         serverData.models.partner.records[2].category_ids = [6];
@@ -7996,28 +7994,22 @@ QUnit.module("Views", (hooks) => {
             limit: 2,
             async mockRPC(_route, { args, kwargs, model, method }) {
                 if (model === "category" && method === "read") {
-                    assert.step(String(args[0]));
+                    assert.step(`read ${String(args[0])}`);
                 } else if (method === "web_search_read") {
-                    const { limit, offset } = kwargs;
-                    if (limit) {
-                        assert.strictEqual(limit, 2);
-                    }
-                    if (offset) {
-                        assert.strictEqual(offset, 2);
-                    }
+                    assert.step(`web_search_read ${kwargs.limit}-${kwargs.offset}`);
                 }
             },
         });
 
         assert.containsN(getColumn(1), ".o_kanban_record", 2);
 
-        assert.verifySteps(["7"], "only the appearing category should be fetched");
+        assert.verifySteps(["web_search_read 2-0", "web_search_read 2-0", "read 7"]);
 
         // load more
         await loadMore(1);
 
         assert.containsN(getColumn(1), ".o_kanban_record", 3);
-        assert.verifySteps(["6"], "the other categories should not be fetched");
+        assert.verifySteps(["web_search_read 4-0", "read 7,6"]);
     });
 
     QUnit.test("update buttons after column creation", async (assert) => {
@@ -8861,6 +8853,7 @@ QUnit.module("Views", (hooks) => {
             "read_progress_bar",
             "web_search_read",
             "web_search_read",
+            "web_search_read",
             // activate filter
             "web_read_group", // recomputes aggregates
             "web_search_read",
@@ -8869,7 +8862,6 @@ QUnit.module("Views", (hooks) => {
             "web_search_read",
             // deactivate active filter
             "web_read_group", // recomputes aggregates
-            "web_search_read",
         ]);
     });
 
@@ -11156,6 +11148,62 @@ QUnit.module("Views", (hooks) => {
         assert.strictEqual(getProgressBars(1)[0].style.width, "25%"); // abc: 1
         assert.strictEqual(getProgressBars(1)[1].style.width, "50%"); // def: 2
         assert.strictEqual(getProgressBars(1)[2].style.width, "25%"); // ghi: 1
+    });
+
+    QUnit.test("load more button shouldn't be visible when unfiltering column", async (assert) => {
+        serverData.models.partner.records.push({ id: 5, state: "abc", bar: true });
+
+        let def;
+        await makeView({
+            type: "kanban",
+            resModel: "partner",
+            serverData,
+            arch: /* xml */ `
+                <kanban>
+                    <progressbar field="state" colors='{"abc": "success", "def": "warning", "ghi": "danger"}' />
+                    <templates>
+                        <div t-name="kanban-box">
+                            <field name="state" widget="state_selection" />
+                            <field name="id" />
+                        </div>
+                    </templates>
+                </kanban>
+            `,
+            groupBy: ["bar"],
+            mockRPC: async (route, args) => {
+                const { method } = args;
+                if (method === "web_search_read") {
+                    await def;
+                }
+            },
+        });
+
+        // Initial state: 2 columns, the "No" column contains 1 record, The "Yes" column contains 4 records
+        assert.deepEqual(getCounters(), ["1", "4"]);
+
+        // Filter on state "abc" => matches 2 records
+        await click(getProgressBars(1)[0]);
+
+        // Filtered state: 2 columns, the "No" column contains 1 record, The "Yes" column contains 2 records
+        assert.deepEqual(getCounters(), ["1", "2"]);
+
+        def = makeDeferred();
+        // UnFiltered the "Yes" column
+        await click(getProgressBars(1)[0]);
+        assert.containsNone(
+            target,
+            ".o_kanban_load_more",
+            "The load more button should not be visible"
+        );
+        def.resolve();
+        await nextTick();
+        //Return to initial state
+        assert.deepEqual(getCounters(), ["1", "4"]);
+        assert.containsNone(
+            target,
+            ".o_kanban_load_more",
+            "The load more button should not be visible"
+        );
     });
 
     QUnit.test("click on the progressBar of a new column", async (assert) => {

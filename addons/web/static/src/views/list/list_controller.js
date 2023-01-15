@@ -308,6 +308,13 @@ export class ListController extends Component {
         return list.isGrouped ? list.nbTotalRecords : list.count;
     }
 
+    get defaultExportList() {
+        return this.props.archInfo.columns
+            .filter((col) => col.type === "field")
+            .map((col) => this.props.fields[col.name])
+            .filter((field) => field.exportable !== false);
+    }
+
     get display() {
         if (!this.env.isSmall) {
             return this.props.display;
@@ -323,7 +330,11 @@ export class ListController extends Component {
     }
 
     async downloadExport(fields, import_compat, format) {
-        const resIds = await this.getSelectedResIds();
+        let ids = false;
+        if (!this.isDomainSelected) {
+            const resIds = await this.getSelectedResIds();
+            ids = resIds.length > 0 && resIds;
+        }
         const exportedFields = fields.map((field) => ({
             name: field.name || field.id,
             label: field.label || field.string,
@@ -341,7 +352,7 @@ export class ListController extends Component {
                     domain: this.model.root.domain,
                     fields: exportedFields,
                     groupby: this.model.root.groupBy,
-                    ids: resIds.length > 0 && resIds,
+                    ids,
                     model: this.model.root.resModel,
                 }),
             },
@@ -363,10 +374,9 @@ export class ListController extends Component {
      * @private
      */
     async onExportData() {
-        const resIds = await this.getSelectedResIds();
         const dialogProps = {
-            resIds,
             context: this.props.context,
+            defaultExportList: this.defaultExportList,
             download: this.downloadExport.bind(this),
             getExportedFields: this.getExportedFields.bind(this),
             root: this.model.root,
@@ -379,11 +389,7 @@ export class ListController extends Component {
      * @private
      */
     async onDirectExportData() {
-        const fields = this.props.archInfo.columns
-            .filter((col) => col.type === "field")
-            .map((col) => this.props.fields[col.name])
-            .filter((field) => field.exportable !== false);
-        await this.downloadExport(fields, false, "xlsx");
+        await this.downloadExport(this.defaultExportList, false, "xlsx");
     }
     /**
      * Called when clicking on 'Archive' or 'Unarchive' in the sidebar.

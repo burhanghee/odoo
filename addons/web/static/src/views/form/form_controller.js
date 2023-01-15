@@ -180,20 +180,14 @@ export class FormController extends Component {
         this.fieldsToTranslate = useState(fieldsToTranslate || {});
         const activeNotebookPages = { ...state.activeNotebookPages };
         this.onNotebookPageChange = (notebookId, page) => {
-            activeNotebookPages[notebookId] = page;
+            if (page) {
+                activeNotebookPages[notebookId] = page;
+            }
         };
 
         useSetupView({
             rootRef,
-            beforeLeave: () => {
-                if (this.model.root.isDirty) {
-                    return this.model.root.save({
-                        noReload: true,
-                        stayInEdition: true,
-                        useSaveErrorDialog: true,
-                    });
-                }
-            },
+            beforeLeave: () => this.beforeLeave(),
             beforeUnload: (ev) => this.beforeUnload(ev),
             getLocalState: () => {
                 // TODO: export the whole model?
@@ -271,6 +265,16 @@ export class FormController extends Component {
         }
         if (canProceed) {
             return this.model.load({ resId: resIds[offset] });
+        }
+    }
+
+    async beforeLeave() {
+        if (this.model.root.isDirty) {
+            return this.model.root.save({
+                noReload: true,
+                stayInEdition: true,
+                useSaveErrorDialog: true,
+            });
         }
     }
 

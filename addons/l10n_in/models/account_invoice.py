@@ -2,7 +2,7 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from odoo import api, fields, models, _
-from odoo.exceptions import ValidationError
+from odoo.exceptions import ValidationError, RedirectWarning
 
 
 class AccountMove(models.Model):
@@ -37,10 +37,10 @@ class AccountMove(models.Model):
         for record in self:
             record.l10n_in_gst_treatment = record.partner_id.l10n_in_gst_treatment
 
-    @api.depends('partner_id')
+    @api.depends('partner_id', 'company_id')
     def _compute_l10n_in_state_id(self):
         for move in self:
-            if move.country_code == 'IN':
+            if move.country_code == 'IN' and move.journal_id.type == 'sale':
                 country_code = move.partner_id.country_id.code
                 if country_code == 'IN':
                     move.l10n_in_state_id = move.partner_id.state_id
@@ -48,6 +48,8 @@ class AccountMove(models.Model):
                     move.l10n_in_state_id = self.env.ref('l10n_in.state_in_oc', raise_if_not_found=False)
                 else:
                     move.l10n_in_state_id = move.company_id.state_id
+            elif move.country_code == 'IN' and move.journal_id.type == 'purchase':
+                move.l10n_in_state_id = move.company_id.state_id
             else:
                 move.l10n_in_state_id = False
 
@@ -60,11 +62,16 @@ class AccountMove(models.Model):
             """Check state is set in company/sub-unit"""
             company_unit_partner = move.journal_id.l10n_in_gstin_partner_id or move.journal_id.company_id
             if not company_unit_partner.state_id:
-                raise ValidationError(_(
-                    "State is missing from your company/unit %(company_name)s (%(company_id)s).\nFirst set state in your company/unit.",
-                    company_name=company_unit_partner.name,
-                    company_id=company_unit_partner.id
-                ))
+                msg = _("Your company %s needs to have a correct address in order to validate this invoice.\n"
+                "Set the address of your company (Don't forget the State field)") % (company_unit_partner.name)
+                action = {
+                    "view_mode": "form",
+                    "res_model": "res.company",
+                    "type": "ir.actions.act_window",
+                    "res_id" : move.company_id.id,
+                    "views": [[self.env.ref("base.view_company_form").id, "form"]],
+                }
+                raise RedirectWarning(msg, action, _('Go to Company configuration'))
 
             move.l10n_in_gstin = move.partner_id.vat
             if not move.l10n_in_gstin and move.l10n_in_gst_treatment in ['regular', 'composition', 'special_economic_zone', 'deemed_export']:
