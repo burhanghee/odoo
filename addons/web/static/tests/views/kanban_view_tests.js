@@ -10467,6 +10467,122 @@ QUnit.module("Views", (hooks) => {
         assert.containsN(target, ".o_kanban_record", 2);
     });
 
+    QUnit.test("filter groups are kept when leaving and coming back", async (assert) => {
+        serverData.models.partner.records[1].state = "abc";
+        serverData.views = {
+            "partner,false,kanban": `
+                <kanban>
+                    <progressbar field="state" colors='{"abc": "success", "def": "warning", "ghi": "danger"}' />
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click">
+                                <field name="id" />
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>`,
+            "partner,false,search": "<search/>",
+            "partner,false,form": `
+                <form>
+                    <field name="state" widget="radio"/>
+                </form>`,
+        };
+        const webClient = await createWebClient({ serverData });
+        await doAction(webClient, {
+            name: "Partners",
+            res_model: "partner",
+            type: "ir.actions.act_window",
+            views: [
+                [false, "kanban"],
+                [false, "form"],
+            ],
+            context: {
+                group_by: ["bar"],
+            },
+        });
+
+        // Filter on state "abc" => matches 2 records
+        await click(getProgressBars(1)[0]);
+
+        assert.deepEqual(getCardTexts(0), ["4"]);
+        assert.deepEqual(getCardTexts(1), ["1", "2"]);
+
+        // open a record
+        await click(target.querySelectorAll(".o_kanban_record")[1]);
+        assert.containsOnce(target, ".o_form_view");
+
+        // go back to kanban view
+        await click(target.querySelector(".breadcrumb-item a"));
+
+        assert.deepEqual(getCardTexts(0), ["4"]);
+        assert.deepEqual(getCardTexts(1), ["1", "2"]);
+
+        // open a record
+        await click(target.querySelectorAll(".o_kanban_record")[1]);
+        assert.containsOnce(target, ".o_form_view");
+
+        // select another state
+        await click(target.querySelectorAll("input.o_radio_input")[1]);
+        // go back to kanban view
+        await click(target.querySelector(".breadcrumb-item a"));
+
+        assert.deepEqual(getCardTexts(0), ["4"]);
+        assert.deepEqual(getCardTexts(1), ["2"]);
+    });
+
+    QUnit.test(
+        "folded groups are kept when leaving and coming back (grouped by date)",
+        async (assert) => {
+            serverData.models.partner.fields.date.default = "2022-10-10";
+            serverData.models.partner.records[0].date = "2022-05-10";
+            serverData.views = {
+                "partner,false,kanban": `
+                <kanban>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click">
+                                <field name="int_field"/>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>`,
+                "partner,false,search": "<search/>",
+                "partner,false,form": "<form/>",
+            };
+            const webClient = await createWebClient({ serverData });
+            await doAction(webClient, {
+                name: "Partners",
+                res_model: "partner",
+                type: "ir.actions.act_window",
+                views: [
+                    [false, "kanban"],
+                    [false, "form"],
+                ],
+                context: {
+                    group_by: ["date"],
+                },
+            });
+
+            assert.containsOnce(target, ".o_kanban_view");
+            assert.containsN(target, ".o_kanban_group", 2);
+            assert.containsNone(target, ".o_column_folded");
+            assert.containsN(target, ".o_kanban_record", 4);
+
+            // fold the second column
+            const clickColumnAction = await toggleColumnActions(1);
+            await clickColumnAction("Fold");
+            assert.containsOnce(target, ".o_column_folded");
+            assert.containsOnce(target, ".o_kanban_record");
+
+            // open a record and go back
+            await click(target.querySelector(".o_kanban_record"));
+            assert.containsOnce(target, ".o_form_view");
+            await click(target.querySelector(".breadcrumb-item a"));
+            assert.containsOnce(target, ".o_column_folded");
+            assert.containsOnce(target, ".o_kanban_record");
+        }
+    );
+
     QUnit.test("loaded records are kept when leaving and coming back", async (assert) => {
         serverData.views = {
             "partner,false,kanban": `

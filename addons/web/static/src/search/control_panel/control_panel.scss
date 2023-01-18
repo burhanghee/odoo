@@ -16,9 +16,6 @@
     }
 
     @include media-breakpoint-down(md) {
-        padding-right: 0;
-        width: 100%;
-
         > div.o_cp_bottom {
             min-height: auto;
         }
@@ -211,7 +208,7 @@
             padding-left: 5px;
             text-align: center;
             user-select: none;
-            .o_pager_limit_fetch, .o_pager_value {
+            .o_pager_limit_fetch:not(.disabled), .o_pager_value {
                 cursor: pointer;
             }
         }
