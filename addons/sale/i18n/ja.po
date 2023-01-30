@@ -5,6 +5,7 @@
 # Translators:
 # Martin Trigaux, 2022
 # Andy Yiu, 2022
+# Yoshi Tashiro (Quartile) <tashiro@roomsfor.hk>, 2023
 # Ryoko Tsuda <ryoko@quartile.co>, 2023
 # 
 msgid ""
@@ -858,7 +859,7 @@ msgstr ""
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order_line__analytic_precision
 msgid "Analytic Precision"
-msgstr ""
+msgstr "分析精度"
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order_line__analytic_line_ids
@@ -3820,7 +3821,7 @@ msgstr "諸条件"
 #. module: sale
 #: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_content
 msgid "Terms &amp; Conditions:"
-msgstr ""
+msgstr "諸条件："
 
 #. module: sale
 #: model:ir.model.fields,field_description:sale.field_sale_order__note

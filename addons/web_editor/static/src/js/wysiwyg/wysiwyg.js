@@ -96,6 +96,7 @@ const Wysiwyg = Widget.extend({
         this.tooltipTimeouts = [];
         Wysiwyg.activeWysiwygs.add(this);
         this._oNotEditableObservers = new Map();
+        this._joinPeerToPeer = this._joinPeerToPeer.bind(this);
     },
     /**
      *
@@ -138,6 +139,8 @@ const Wysiwyg = Widget.extend({
             this.getSession()['notification_type']
         ) {
             editorCollaborationOptions = this.setupCollaboration(options.collaborationChannel);
+            // Wait until editor is focused to join the peer to peer network.
+            this.$editable[0].addEventListener('focus', this._joinPeerToPeer);
         }
 
         const getYoutubeVideoElement = async (url) => {
@@ -233,12 +236,6 @@ const Wysiwyg = Widget.extend({
         if ($wrapwrap.length) {
             $wrapwrap[0].addEventListener('scroll', this.odooEditor.multiselectionRefresh, { passive: true });
             this.$root = this.$root || $wrapwrap;
-        }
-
-        if (this._peerToPeerLoading) {
-            // Now that the editor is loaded, wait for the peerToPeer to be
-            // ready to join.
-            this._peerToPeerLoading.then(() => this.ptp.notifyAllClients('ptp_join'));
         }
 
         this.$editable.on('click', '[data-oe-field][data-oe-sanitize-prevent-edition]', () => {
@@ -448,8 +445,6 @@ const Wysiwyg = Widget.extend({
             this.call('bus_service', 'deleteChannel', this._collaborationChannelName);
         }
 
-        // const syncHistory = async (fromClientId) => {
-        // }
         // Check wether clientA is before clientB.
         const isClientFirst = (clientA, clientB) => {
             if (clientA.startTime === clientB.startTime) {
@@ -844,7 +839,8 @@ const Wysiwyg = Widget.extend({
      * @returns {Boolean}
      */
     isDirty: function () {
-        return this._initialValue !== (this.getValue() || this.$editable.val());
+        const isDocumentDirty = this.$editable[0].ownerDocument.defaultView.$(".o_dirty").length;
+        return this._initialValue !== (this.getValue() || this.$editable.val()) && isDocumentDirty;
     },
     /**
      * Get the value of the editable element.
@@ -898,19 +894,33 @@ const Wysiwyg = Widget.extend({
      * @returns {Promise}
      */
     saveContent: async function (reload = true) {
+        // TODO dead code: we await for nothing. But let's be extra careful and
+        // only remove it in master as `await nothing` actually allows external
+        // code to take over before the rest of the function here is executed.
         const defs = [];
         await Promise.all(defs);
 
+        this.savingContent = true;
         await this.cleanForSave();
 
         const editables = this.options.getContentEditableAreas();
         await this.saveModifiedImages(editables.length ? $(editables) : this.$editable);
         await this._saveViewBlocks();
+        this.savingContent = false;
 
         window.removeEventListener('beforeunload', this._onBeforeUnload);
         if (reload) {
             window.location.reload();
         }
+    },
+    /**
+     * Checks if the Wysiwyg is currently saving content. It can be used to
+     * prevent some unwanted actions during save.
+     *
+     * @returns {Boolean}
+     */
+    isSaving() {
+        return !!this.savingContent;
     },
     /**
      * Asks the user if he really wants to discard its changes (if there are
@@ -1988,7 +1998,7 @@ const Wysiwyg = Widget.extend({
         // autohideToolbar is true by default (false by default if navbar present).
         finalOptions.autohideToolbar = typeof finalOptions.autohideToolbar === 'boolean'
             ? finalOptions.autohideToolbar
-            : !options.snippets;
+            : !finalOptions.snippets;
 
         return finalOptions;
     },
@@ -2493,6 +2503,9 @@ const Wysiwyg = Widget.extend({
                 dialog.open({shouldFocusButtons:true});
 
                 this.resetEditor(dbRecord.body);
+                // We were in a peer to peer session before the conflict, join
+                // it again immediately.
+                this._joinPeerToPeer();
             }
             this.preSavePromiseResolve();
             resetPreSavePromise();
@@ -2509,9 +2522,17 @@ const Wysiwyg = Widget.extend({
         this.ptp && this.ptp.stop();
         this._collaborationStopBus && this._collaborationStopBus();
     },
+    _joinPeerToPeer: function () {
+        this.$editable[0].removeEventListener('focus', this._joinPeerToPeer);
+        if (this._peerToPeerLoading) {
+            this._peerToPeerLoading.then(() => this.ptp.notifyAllClients('ptp_join'));
+        }
+    },
     resetEditor: function (value, options) {
-        this.options = this._getEditorOptions(options);
-        const {collaborationChannel} = options;
+        if (options) {
+            this.options = this._getEditorOptions(options);
+        }
+        const {collaborationChannel} = this.options;
         this._stopPeerToPeer();
         // If there is no collaborationResId, the record has been deleted.
         if (!collaborationChannel || !collaborationChannel.collaborationResId) {
@@ -2526,7 +2547,8 @@ const Wysiwyg = Widget.extend({
         this.odooEditor.collaborationSetClientId(this._currentClientId);
         this.setValue(value);
         this.odooEditor.historyReset();
-        this.ptp.notifyAllClients('ptp_join');
+        // Wait until editor is focused to join the peer to peer network.
+        this.$editable[0].addEventListener('focus', this._joinPeerToPeer);
     },
     /**
      * Set contenteditable=false for all `.o_not_editable` found within node if

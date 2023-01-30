@@ -351,6 +351,9 @@ export class HtmlField extends Component {
     }
     async commitChanges({ urgent } = {}) {
         if (this._isDirty() || urgent) {
+            if (urgent) {
+                await this.updateValue();
+            }
             if (this.wysiwyg) {
                 // Avoid listening to changes made during the _toInline process.
                 this.wysiwyg.odooEditor.observerUnactive('commitChanges');
@@ -360,7 +363,9 @@ export class HtmlField extends Component {
                 }
                 this.wysiwyg.odooEditor.observerActive('commitChanges');
             }
-            await this.updateValue();
+            if (owl.status(this) !== 'destroyed') {
+                await this.updateValue();
+            }
         }
     }
     _isDirty() {
@@ -529,7 +534,7 @@ export class HtmlField extends Component {
         }]));
     }
     _onWysiwygBlur() {
-        this.commitChanges({ urgent: true });
+        this.commitChanges();
     }
     async _onReadonlyClickChecklist(ev) {
         if (ev.offsetX > 0) {

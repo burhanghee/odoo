@@ -1945,7 +1945,7 @@ export class DynamicRecordList extends DynamicList {
     async fetchCount() {
         const keepLast = this.model.keepLast;
         this.count = await keepLast.add(this.model.orm.searchCount(this.resModel, this.domain));
-        this.countLimit = this.count;
+        this.countLimit = Number.MAX_SAFE_INTEGER;
         this.hasLimitedCount = false;
         this.model.notify();
     }
@@ -2030,12 +2030,14 @@ export class DynamicRecordList extends DynamicList {
             limit: this.limit,
             offset: this.offset,
             order: orderByToString(this.orderBy),
-            count_limit: this.countLimit + 1,
             context: {
                 bin_size: true,
                 ...this.context,
             },
         };
+        if (this.countLimit !== Number.MAX_SAFE_INTEGER) {
+            kwargs.count_limit = this.countLimit + 1;
+        }
         const { records: rawRecords, length } =
             this.data ||
             (await this.model.orm.webSearchRead(
@@ -3424,10 +3426,12 @@ export class RelationalModel extends Model {
                 this.rootParams.mode = params.mode;
             }
         } else {
-            this.rootParams.openGroupsByDefault = params.openGroupsByDefault || false;
-            this.rootParams.limit = params.limit;
-            this.rootParams.expand = params.expand;
-            this.rootParams.groupsLimit = params.groupsLimit;
+            const { limit, countLimit, groupsLimit, openGroupsByDefault, expand } = params;
+            this.rootParams.openGroupsByDefault = openGroupsByDefault || false;
+            this.rootParams.limit = limit;
+            this.rootParams.countLimit = countLimit && Math.max(limit, countLimit);
+            this.rootParams.groupsLimit = groupsLimit;
+            this.rootParams.expand = expand;
         }
         this.initialValues = params.initialValues;
 

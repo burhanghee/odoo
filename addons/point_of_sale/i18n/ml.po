@@ -416,7 +416,7 @@ msgstr ""
 #: code:addons/point_of_sale/static/src/xml/Popups/ProductConfiguratorPopup.xml:0
 #, python-format
 msgid "Add"
-msgstr ""
+msgstr "ചേർക്കുക"
 
 #. module: point_of_sale
 #. odoo-javascript
@@ -593,7 +593,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:point_of_sale.field_pos_make_payment__amount
 #: model:ir.model.fields,field_description:point_of_sale.field_pos_payment__amount
 msgid "Amount"
-msgstr ""
+msgstr "തുക"
 
 #. module: point_of_sale
 #: model:ir.model.fields,field_description:point_of_sale.field_pos_config__amount_authorized_diff
@@ -932,7 +932,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:point_of_sale.view_pos_payment
 #, python-format
 msgid "Cancel"
-msgstr ""
+msgstr "റദ്ദാക്കുക"
 
 #. module: point_of_sale
 #. odoo-javascript
@@ -1107,7 +1107,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:point_of_sale.view_pos_category_kanban
 #, python-format
 msgid "Category"
-msgstr ""
+msgstr "കാറ്റഗറി"
 
 #. module: point_of_sale
 #: model:ir.model.fields,field_description:point_of_sale.field_pos_category__name
@@ -1324,7 +1324,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:point_of_sale.field_pos_session__company_id
 #: model:ir.model.fields,field_description:point_of_sale.field_report_pos_order__company_id
 msgid "Company"
-msgstr ""
+msgstr "കമ്പനി"
 
 #. module: point_of_sale
 #: model:ir.model.fields,field_description:point_of_sale.field_pos_config__company_has_template
@@ -3266,7 +3266,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:point_of_sale.report_saledetails
 #, python-format
 msgid "Name"
-msgstr ""
+msgstr "പേര്"
 
 #. module: point_of_sale
 #. odoo-javascript
@@ -4115,7 +4115,7 @@ msgstr ""
 #: code:addons/point_of_sale/static/src/xml/Screens/PartnerListScreen/PartnerDetailsEdit.xml:0
 #, python-format
 msgid "Phone"
-msgstr ""
+msgstr "ഫോൺ"
 
 #. module: point_of_sale
 #: model_terms:ir.ui.view,arch_db:point_of_sale.res_config_settings_view_form
@@ -4743,7 +4743,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:point_of_sale.report_saledetails
 #: model_terms:ir.ui.view,arch_db:point_of_sale.view_report_pos_order_search
 msgid "Product"
-msgstr ""
+msgstr "പ്രോഡക്റ്റ്"
 
 #. module: point_of_sale
 #: model:ir.model.fields,field_description:point_of_sale.field_report_pos_order__product_categ_id

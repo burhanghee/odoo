@@ -664,7 +664,7 @@ class AccountMove(models.Model):
         highest_name = self[0]._get_last_sequence(lock=False) if self else False
 
         for move in self:
-            if not highest_name and move == self[0] and not move.posted_before and move.date:
+            if not highest_name and move == self[0] and not move.posted_before and move.date and (not move.name or move.name == '/'):
                 # In the form view, we need to compute a default sequence so that the user can edit
                 # it. We only check the first move as an approximation (enough for new in form view)
                 move._set_next_sequence()
@@ -1130,7 +1130,7 @@ class AccountMove(models.Model):
 
                 kwargs = {
                     'base_lines': base_line_values_list,
-                    'currency': move.currency_id,
+                    'currency': move.currency_id or move.journal_id.currency_id or move.journal_id.company_id.currency_id,
                 }
 
                 if move.id:
@@ -2259,17 +2259,6 @@ class AccountMove(models.Model):
                     super(AccountMove, move).write({'tax_totals': vals['tax_totals']})
 
         return res
-
-    @api.ondelete(at_uninstall=False)
-    def _unlink_forbid_parts_of_chain(self):
-        """ Moves with a sequence number can only be deleted if they are the last element of a chain of sequence.
-        If they are not, deleting them would create a gap. If the user really wants to do this, he still can
-        explicitly empty the 'name' field of the move; but we discourage that practice.
-        """
-        if not self._context.get('force_delete') and not self.filtered(lambda move: move.name != '/')._is_end_of_seq_chain():
-            raise UserError(_(
-                "You cannot delete this entry, as it has already consumed a sequence number and is not the last one in the chain. You should probably revert it instead."
-            ))
 
     def unlink(self):
         self = self.with_context(skip_invoice_sync=True, dynamic_unlink=True)  # no need to sync to delete everything

@@ -243,7 +243,7 @@ msgstr ""
 #: code:addons/web_editor/static/src/js/editor/snippets.options.js:0
 #, python-format
 msgid "Add"
-msgstr ""
+msgstr "ചേർക്കുക"
 
 #. module: web_editor
 #. odoo-javascript
@@ -622,7 +622,7 @@ msgstr ""
 #: code:addons/web_editor/static/src/js/editor/snippets.options.js:0
 #, python-format
 msgid "Cancel"
-msgstr ""
+msgstr "റദ്ദാക്കുക"
 
 #. module: web_editor
 #. odoo-javascript
@@ -1828,7 +1828,7 @@ msgstr ""
 #. module: web_editor
 #: model:ir.model.fields,field_description:web_editor.field_web_editor_converter_test_sub__name
 msgid "Name"
-msgstr ""
+msgstr "പേര്"
 
 #. module: web_editor
 #. odoo-javascript

@@ -402,7 +402,8 @@ class SaleOrder(models.Model):
     def _compute_user_id(self):
         for order in self:
             if not order.user_id:
-                order.user_id = order.partner_id.user_id or order.partner_id.commercial_partner_id.user_id or self.env.user
+                order.user_id = order.partner_id.user_id or order.partner_id.commercial_partner_id.user_id or \
+                    (self.user_has_groups('sales_team.group_sale_salesman') and self.env.user)
 
     @api.depends('partner_id', 'user_id')
     def _compute_team_id(self):
@@ -944,7 +945,7 @@ class SaleOrder(models.Model):
             ))
 
     def _recompute_prices(self):
-        lines_to_recompute = self.order_line.filtered(lambda line: not line.display_type)
+        lines_to_recompute = self._get_update_prices_lines()
         lines_to_recompute.invalidate_recordset(['pricelist_item_id'])
         lines_to_recompute._compute_price_unit()
         # Special case: we want to overwrite the existing discount on _recompute_prices call
@@ -1028,6 +1029,10 @@ class SaleOrder(models.Model):
             "quantities\". For Services, you should modify the Service Invoicing Policy to "
             "'Prepaid'."
         )
+
+    def _get_update_prices_lines(self):
+        """ Hook to exclude specific lines which should not be updated based on price list recomputation """
+        return self.order_line.filtered(lambda line: not line.display_type)
 
     def _get_invoiceable_lines(self, final=False):
         """Return the invoiceable lines for order `self`."""
