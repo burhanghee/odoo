@@ -52,6 +52,11 @@ file_filter = addons/account_payment/i18n/<lang>.po
 source_file = addons/account_payment/i18n/account_payment.pot
 source_lang = en
 
+[odoo-16.account_payment_invoice_online_payment_patch]
+file_filter = addons/account_payment_invoice_online_payment_patch/i18n/<lang>.po
+source_file = addons/account_payment_invoice_online_payment_patch/i18n/account_payment_invoice_online_payment_patch.pot
+source_lang = en
+
 [odoo-16.account_qr_code_sepa]
 file_filter = addons/account_qr_code_sepa/i18n/<lang>.po
 source_file = addons/account_qr_code_sepa/i18n/account_qr_code_sepa.pot
@@ -797,6 +802,11 @@ file_filter = addons/purchase_mrp/i18n/<lang>.po
 source_file = addons/purchase_mrp/i18n/purchase_mrp.pot
 source_lang = en
 
+[odoo-16.purchase_price_diff]
+file_filter = addons/purchase_price_diff/i18n/<lang>.po
+source_file = addons/purchase_price_diff/i18n/purchase_price_diff.pot
+source_lang = en
+
 [odoo-16.purchase_product_matrix]
 file_filter = addons/purchase_product_matrix/i18n/<lang>.po
 source_file = addons/purchase_product_matrix/i18n/purchase_product_matrix.pot
@@ -1250,6 +1260,16 @@ source_lang = en
 [odoo-16.website_payment]
 file_filter = addons/website_payment/i18n/<lang>.po
 source_file = addons/website_payment/i18n/website_payment.pot
+source_lang = en
+
+[odoo-16.website_payment_authorize]
+file_filter = addons/website_payment_authorize/i18n/<lang>.po
+source_file = addons/website_payment_authorize/i18n/website_payment_authorize.pot
+source_lang = en
+
+[odoo-16.website_payment_paypal]
+file_filter = addons/website_payment_paypal/i18n/<lang>.po
+source_file = addons/website_payment_paypal/i18n/website_payment_paypal.pot
 source_lang = en
 
 [odoo-16.website_profile]

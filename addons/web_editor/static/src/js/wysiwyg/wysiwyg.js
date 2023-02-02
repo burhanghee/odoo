@@ -2529,11 +2529,13 @@ const Wysiwyg = Widget.extend({
         }
     },
     resetEditor: function (value, options) {
+        this.$editable[0].removeEventListener('focus', this._joinPeerToPeer);
         if (options) {
             this.options = this._getEditorOptions(options);
         }
         const {collaborationChannel} = this.options;
         this._stopPeerToPeer();
+        this._rulesCache = undefined; // Reset the cache of rules.
         // If there is no collaborationResId, the record has been deleted.
         if (!collaborationChannel || !collaborationChannel.collaborationResId) {
             this.setValue(value);
