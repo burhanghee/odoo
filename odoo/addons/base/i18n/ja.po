@@ -3097,7 +3097,7 @@ msgid ""
 "invoices from picking, the system is able to add and compute the shipping line.\n"
 msgstr ""
 "\n"
-"販売オーダーおよびピッキングに配送方法を追加することができます。\n"
+"販売注文ーおよびピッキングに配送方法を追加することができます。\n"
 "======================================================\n"
 "\n"
 "価格に応じ独自の配送業者を定義することができます。 ピッキングから請求書を作成する際、システムは出荷ラインを追加して計算することができます。\n"
@@ -3178,7 +3178,7 @@ msgstr ""
 "==========\n"
 "このモジュールを使用すると、レポート/会計/会計テストのメニューから会計モジュールの整合性と矛盾を手動でチェックすることができます。\n"
 "\n"
-"Consistency Testを作成するためのクエリを記述することができます。テストの結果をメニュー レポート - > 会計テスト でアクセスできるPDF形式で取得し、テストを選択し、ヘッダー領域の印刷ボタンからレポートを印刷します。\n"
+"Consistency Testを作成するためのクエリを記述することができます。テストの結果をメニュー レポート - > 会計テスト でアクセスできるPDF形式で取得し、テストを選択し、ヘッダ領域の印刷ボタンからレポートを印刷します。\n"
 
 #. module: base
 #: model:ir.module.module,description:base.module_account_asset
@@ -5879,7 +5879,7 @@ msgstr ""
 "リソース管理モジュール。\n"
 "===================\n"
 "\n"
-"リソースとは、スケジューリング可能なもの(タスクの開発者または製造オーダーの作業区)を表します。 このモジュールは、すべてのリソースに関連付けられたリソースカレンダーを管理します。 また、すべてのリソースの枝葉を管理します。"
+"リソースとは、スケジューリング可能なもの(タスクの開発者または製造注文ーの作業区)を表します。 このモジュールは、すべてのリソースに関連付けられたリソースカレンダーを管理します。 また、すべてのリソースの枝葉を管理します。"
 
 #. module: base
 #: model:ir.module.module,description:base.module_website_mail
@@ -7126,7 +7126,7 @@ msgstr ""
 "\n"
 "しかし、会社内の昼食管理は、特に従業員またはベンダーの数が重要な場合に適切な管理が必要です。\n"
 "\n"
-"「ランチオーダー」モジュールは、この管理を容易にするだけでなく、従業員により多くのツールとユーザビリティを提供するために開発されました。\n"
+"「ランチ注文ー」モジュールは、この管理を容易にするだけでなく、従業員により多くのツールとユーザビリティを提供するために開発されました。\n"
 "\n"
 "完全な食事と仕入先の管理に加えて、このモジュールは警告を表示し、従業員の好みに基づいて迅速な注文の選択を提供します。\n"
 "\n"
@@ -8628,8 +8628,8 @@ msgstr ""
 "このモジュールは、ユーザにmrpと販売モジュールを一度にインストールする機能を提供します\n"
 "====================================================================================\n"
 "\n"
-"基本的には、受注から生成された製造オーダを追跡する場合に使用されます。 \n"
-"製造オーダに販売名と販売参照が追加されます。"
+"基本的には、受注から生成された製造注文を追跡する場合に使用されます。 \n"
+"製造注文に販売名と販売参照が追加されます。"
 
 #. module: base
 #: model:ir.module.module,description:base.module_iot
@@ -9157,7 +9157,7 @@ msgid ""
 msgstr ""
 "複数の会社間でドキュメントを同期するためのモジュール。たとえば、これにより、発注書がシステムの別の会社をベンダーとして検証されたときに、逆に、発注書を自動的に作成することができます。\n"
 "\n"
-"サポートされているドキュメントは、請求書/クレジットノートです。"
+"サポートされているドキュメントは、請求書/クレジットノートです。\n"
 
 #. module: base
 #: model:ir.module.module,description:base.module_approvals_purchase_stock
@@ -9557,7 +9557,7 @@ msgstr "%y - ２桁の西暦[00,99].\\\""
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.language_install_view_form_lang_switch
 msgid "&amp; Close"
-msgstr "&amp; 閉じる"
+msgstr "、そして閉じる"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.module_view_kanban
@@ -9949,7 +9949,7 @@ msgstr ""
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.res_partner_kanban_view
 msgid "<span class=\"bg-danger\">Archived</span>"
-msgstr ""
+msgstr "<span class=\"bg-danger\">アーカイブ済</span>"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.view_base_module_update
@@ -11674,7 +11674,7 @@ msgstr "注文ごとのリード作成モードを許可する"
 #. module: base
 #: model:ir.module.module,summary:base.module_website_sale_comparison
 msgid "Allow shoppers to compare products based on their attributes"
-msgstr "顧客が属性を基づいて商品を比較できるようにします"
+msgstr "顧客が属性に基づいて商品を比較できるようにします"
 
 #. module: base
 #: model:ir.module.module,summary:base.module_website_sale_wishlist
@@ -14165,7 +14165,7 @@ msgstr "会社ファビコン"
 #: model:ir.model.fields,field_description:base.field_res_partner__company_registry
 #: model:ir.model.fields,field_description:base.field_res_users__company_registry
 msgid "Company ID"
-msgstr ""
+msgstr "カンパニーID"
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_res_company__logo
@@ -18948,7 +18948,7 @@ msgstr "支払いを管理するのに有用です。"
 msgid ""
 "Helps you manage your inventory and main stock operations: delivery orders, "
 "receptions, etc."
-msgstr "在庫表と主な在庫操作の管理を手助けします：配達オーダー、受け取りなど"
+msgstr "在庫表と主な在庫操作の管理を手助けします：配達注文ー、受け取りなど"
 
 #. module: base
 #: model:ir.module.category,description:base.module_category_manufacturing_manufacturing
@@ -19604,7 +19604,7 @@ msgstr ""
 #. module: base
 #: model:ir.module.module,summary:base.module_sale_amazon
 msgid "Import Amazon orders and sync deliveries"
-msgstr "Amazonオーダインポートおよび運送同期"
+msgstr "Amazon注文インポートおよび運送同期"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_account_bank_statement_import_camt
@@ -21750,7 +21750,7 @@ msgstr "クラウド税計算の割引を管理します。"
 #. module: base
 #: model:ir.module.module,summary:base.module_mrp_plm
 msgid "Manage engineering change orders on products, bills of material"
-msgstr "プロダクト、部品表の設計変更オーダを管理"
+msgstr "商品、部品表の設計変更注文を管理"
 
 #. module: base
 #: model:ir.module.module,summary:base.module_event_booth
@@ -21917,7 +21917,7 @@ msgstr "製造期限"
 #. module: base
 #: model:ir.module.module,summary:base.module_mrp
 msgid "Manufacturing Orders & BOMs"
-msgstr "製造オーダと部品表"
+msgstr "製造注文と部品表"
 
 #. module: base
 #: model:ir.model.fields.selection,name:base.selection__ir_property__type__many2one
@@ -21947,12 +21947,12 @@ msgstr "マップビュー"
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_product_margin
 msgid "Margins by Products"
-msgstr "プロダクト毎のマージン"
+msgstr "商品毎のマージン"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_sale_margin
 msgid "Margins in Sales Orders"
-msgstr "販売オーダマージン"
+msgstr "販売注文マージン"
 
 #. module: base
 #: model:ir.module.category,name:base.module_category_marketing
@@ -24357,7 +24357,7 @@ msgstr "多対1項目の属性削除"
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_website_sale_picking
 msgid "On site Payment & Picking"
-msgstr ""
+msgstr "店頭で決済・ピッキング"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.onboarding_container
@@ -24633,7 +24633,7 @@ msgstr "オプション"
 #. module: base
 #: model:ir.model.fields,field_description:base.field_ir_model__order
 msgid "Order"
-msgstr "オーダ"
+msgstr "注文"
 
 #. module: base
 #: model:ir.module.module,description:base.module_website_event_track
@@ -25954,7 +25954,7 @@ msgstr "プライベートメソッド ( %s 等) リモートで呼び出しで�
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_website_sale_stock
 msgid "Product Availability"
-msgstr "プロダクト在庫"
+msgstr "商品在庫"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_website_sale_comparison_wishlist
@@ -25975,7 +25975,7 @@ msgstr "商品メールテンプレート"
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_product_images
 msgid "Product Images"
-msgstr "プロダクト画像"
+msgstr "商品画像"
 
 #. module: base
 #: model:ir.module.category,name:base.module_category_manufacturing_product_lifecycle_management_(plm)
@@ -26002,7 +26002,7 @@ msgstr "商品・価格表"
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_product_expiry
 msgid "Products Expiration Date"
-msgstr "プロダクトの有効期限"
+msgstr "商品の有効期限"
 
 #. module: base
 #: model:ir.module.module,summary:base.module_documents_project_sale
@@ -27600,7 +27600,7 @@ msgstr ""
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_sale_product_configurator
 msgid "Sale Product Configurator"
-msgstr "販売プロダクトコンフィギュレータ"
+msgstr "販売商品コンフィギュレータ"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_test_sale_product_configurators
@@ -29331,12 +29331,12 @@ msgstr ""
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.language_install_view_form_lang_switch
 msgid "Switch to"
-msgstr "次に切替"
+msgstr "切替 -->"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.language_install_view_form_lang_switch
 msgid "Switch to language"
-msgstr ""
+msgstr "言語を切替"
 
 #. module: base
 #: model:res.country,name:base.ch
@@ -29857,6 +29857,8 @@ msgid ""
 "country format. You can use '/' to indicate that the partner is not subject "
 "to tax."
 msgstr ""
+"Tax Identification Number "
+"(納税者番号)。ここでの値は、国の形式に基づいて検証されます。パートナーに税金がかからないことを示すには、'/' を使用します。"
 
 #. module: base
 #: model:ir.model.constraint,message:base.constraint_res_lang_url_code_uniq
@@ -30333,7 +30335,7 @@ msgstr "レートが1である通貨に対しての通貨のレート"
 msgid ""
 "The registry number of the company. Use it if it is different from the Tax "
 "ID. It must be unique across all partners of a same country"
-msgstr ""
+msgstr "会社の登録番号です。税IDと異なる場合は、これを使用します。同じ国のすべてのパートナー間で一意である必要があります。"
 
 #. module: base
 #. odoo-python
@@ -30575,20 +30577,20 @@ msgid ""
 "This field should be used when accessing view arch. It will use translation.\n"
 "                               Note that it will read `arch_db` or `arch_fs` if in dev-xml mode."
 msgstr ""
-"このフィールドは、ビューアーチにアクセスするときに使用する必要があります。翻訳を使用します。\n"
-"                               dev-xmlモードの場合、'arch_db'または'arch_fs'を読み取ることに注意してください。"
+"このフィールドは、ビューアーキテクチャにアクセスするときに使用する必要があります。翻訳を使用します。\n"
+"                               dev-xmlモードの場合、「arch_db」又は「arch_fs」を読み取ることに注意してください。"
 
 #. module: base
 #: model:ir.model.fields,help:base.field_ir_ui_view__arch_db
 msgid "This field stores the view arch."
-msgstr "このフィールドには、ビューアーチが格納されます。"
+msgstr "このフィールドには、ビューアーキテクチャが格納されます。"
 
 #. module: base
 #: model:ir.model.fields,help:base.field_ir_ui_view__arch_prev
 msgid ""
 "This field will save the current `arch_db` before writing on it.\n"
 "                                                                         Useful to (soft) reset a broken view."
-msgstr "このフィールドは、書き込む前に現在の `arch_db`を保存します。壊れたビューを(ソフト)リセットするのに便利です。"
+msgstr "このフィールドは、書き込む前に現在の「arch_db」を保存します。壊れたビューをソフトリセットするのに便利です。"
 
 #. module: base
 #. odoo-python
@@ -33516,7 +33518,7 @@ msgstr "例: 営業部長"
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.view_server_action_form
 msgid "e.g. Update order quantity"
-msgstr "例: オーダ数量を更新"
+msgstr "例: 注文数量を更新"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.view_users_form
@@ -33645,7 +33647,7 @@ msgstr "取得"
 msgid ""
 "has been successfully installed.\n"
 "                            Users can choose their favorite language in their preferences."
-msgstr ""
+msgstr "は成功にインストールされました。ユーザーは自分の好みで言語を選択できます。"
 
 #. module: base
 #. odoo-python

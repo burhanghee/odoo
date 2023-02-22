@@ -600,10 +600,10 @@ class Partner(models.Model):
         if self.commercial_partner_id == self:
             commercial_fields = self._commercial_fields()
             if any(field in values for field in commercial_fields):
-                self._commercial_sync_to_children()
+                self.sudo()._commercial_sync_to_children()
         for child in self.child_ids.filtered(lambda c: not c.is_company):
             if child.commercial_partner_id != self.commercial_partner_id:
-                self._commercial_sync_to_children()
+                self.sudo()._commercial_sync_to_children()
                 break
         # 2b. Address fields: sync if address changed
         address_fields = self._address_fields()
@@ -818,8 +818,7 @@ class Partner(models.Model):
             name = partner._display_address(without_company=True)
         if self._context.get('show_address'):
             name = name + "\n" + partner._display_address(without_company=True)
-        name = name.replace('\n\n', '\n')
-        name = name.replace('\n\n', '\n')
+        name = re.sub(r'\s+\n', '\n', name)
         if self._context.get('partner_show_db_id'):
             name = "%s (%s)" % (name, partner.id)
         if self._context.get('address_inline'):
@@ -831,7 +830,7 @@ class Partner(models.Model):
             name = name.replace('\n', '<br/>')
         if self._context.get('show_vat') and partner.vat:
             name = "%s ‒ %s" % (name, partner.vat)
-        return name
+        return name.strip()
 
     def name_get(self):
         res = []
