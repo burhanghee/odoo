@@ -48,6 +48,7 @@ package.json
 /share/
 /src/
 /testing
+/oca_modules
 # avoid adding it after generation from tsconfig command
 tsconfig.json
 ax-addons/
