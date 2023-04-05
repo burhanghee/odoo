@@ -9,6 +9,7 @@
 # María Florencia Frigieri Parma, 2022
 # Óscar Fonseca <tecnico@extreme-micro.com>, 2023
 # Sergio Del Castillo Baranda, 2023
+# Francisco Santos, 2023
 # Pedro M. Baeza <pedro.baeza@tecnativa.com>, 2023
 # 
 msgid ""
@@ -3673,7 +3674,7 @@ msgstr "Importar"
 #: code:addons/stock/models/stock_quant.py:0
 #, python-format
 msgid "Import Template for Inventory Adjustments"
-msgstr ""
+msgstr "Importar plantilla de ajustes de inventario"
 
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_stock_warehouse__in_type_id
@@ -4853,7 +4854,7 @@ msgstr "Movimientos"
 #: model:ir.actions.act_window,name:stock.stock_move_line_action
 #: model:ir.ui.menu,name:stock.stock_move_line_menu
 msgid "Moves History"
-msgstr ""
+msgstr "Historial de movimientos"
 
 #. module: stock
 #: model:ir.model.fields,help:stock.field_stock_warehouse_orderpoint__group_id
@@ -9174,7 +9175,7 @@ msgstr "Unidades de medida"
 
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_product_replenish__product_uom_id
-msgid "Unity of measure"
+msgid "Unit of measure"
 msgstr "Unidad de medida"
 
 #. module: stock

@@ -323,7 +323,7 @@ class PosGlobalState extends PosModel {
                 reject();
             };
             this.company_logo.crossOrigin = "anonymous";
-            this.company_logo.src = '/web/binary/company_logo' + '?dbname=' + this.env.session.db + '&company=' + this.company.id + '&_' + Math.random();
+            this.company_logo.src = `/web/image?model=res.company&id=${this.company.id}&field=logo`;
         });
 
     }
@@ -1827,7 +1827,6 @@ class Orderline extends PosModel {
             customer_note: this.get_customer_note(),
             refunded_orderline_id: this.refunded_orderline_id,
             price_manually_set: this.price_manually_set,
-            refunded_orderline_id: this.refunded_orderline_id,
         };
     }
     //used to create a json of the ticket, to be sent to the printer
@@ -1855,6 +1854,7 @@ class Orderline extends PosModel {
             product_description_sale: this.get_product().description_sale,
             pack_lot_lines:      this.get_lot_lines(),
             customer_note:      this.get_customer_note(),
+            taxed_lst_unit_price: this.get_taxed_lst_unit_price(),
         };
     }
     generate_wrapped_product_name() {
@@ -1933,7 +1933,7 @@ class Orderline extends PosModel {
         }
     }
     get_taxed_lst_unit_price(){
-        var lst_price = this.get_lst_price();
+        var lst_price = this.compute_fixed_price(this.get_lst_price());
         if (this.pos.config.iface_tax_included === 'total') {
             var product =  this.get_product();
             var taxes_ids = product.taxes_id;
@@ -2075,7 +2075,7 @@ class Orderline extends PosModel {
         return this.compute_fixed_price(this.get_lst_price());
     }
     get_lst_price(){
-        return this.product.lst_price;
+        return this.product.get_price(this.pos.default_pricelist, 1, 0)
     }
     set_lst_price(price){
       this.order.assert_editable();
@@ -3116,8 +3116,8 @@ class Order extends PosModel {
                 var rounding_method = this.pos.cash_rounding[0].rounding_method;
                 var remaining = this.get_total_with_tax() - this.get_total_paid();
                 var sign = this.get_total_with_tax() > 0 ? 1.0 : -1.0;
-                if(this.get_total_with_tax() < 0 && remaining > 0 || this.get_total_with_tax() > 0 && remaining < 0) {
-                    rounding_method = rounding_method.endsWith("UP") ? "DOWN" : "UP";
+                if(rounding_method !== "HALF-UP" && (this.get_total_with_tax() < 0 && remaining > 0 || this.get_total_with_tax() > 0 && remaining < 0)) {
+                    rounding_method = rounding_method === "UP" ? "DOWN" : "UP";
                 }
 
                 remaining *= sign;
@@ -3140,6 +3140,9 @@ class Order extends PosModel {
                     rounding_applied -= this.pos.cash_rounding[0].rounding;
                 }
                 else if(rounding_method === "DOWN" && rounding_applied < 0 && remaining < 0){
+                    rounding_applied += this.pos.cash_rounding[0].rounding;
+                }
+                else if(rounding_method === "HALF-UP" && rounding_applied === this.pos.cash_rounding[0].rounding / -2){
                     rounding_applied += this.pos.cash_rounding[0].rounding;
                 }
                 return sign * rounding_applied;
