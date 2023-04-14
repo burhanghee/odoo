@@ -543,7 +543,7 @@ class PurchaseOrder(models.Model):
                     'seller_ids': [(0, 0, supplierinfo)],
                 }
                 # supplier info should be added regardless of the user access rights
-                line.product_id.sudo().write(vals)
+                line.product_id.product_tmpl_id.sudo().write(vals)
 
     def action_create_invoice(self):
         """Create the invoice associated to the PO.
@@ -1382,7 +1382,7 @@ class PurchaseOrderLine(models.Model):
     @api.model
     def _prepare_purchase_order_line(self, product_id, product_qty, product_uom, company_id, supplier, po):
         partner = supplier.partner_id
-        uom_po_qty = product_uom._compute_quantity(product_qty, product_id.uom_po_id)
+        uom_po_qty = product_uom._compute_quantity(product_qty, product_id.uom_po_id, rounding_method='HALF-UP')
         # _select_seller is used if the supplier have different price depending
         # the quantities ordered.
         seller = product_id.with_company(company_id)._select_seller(
