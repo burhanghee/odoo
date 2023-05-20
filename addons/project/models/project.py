@@ -18,7 +18,6 @@ from odoo.tools.misc import get_lang
 from .project_task_recurrence import DAYS, WEEKS
 from .project_update import STATUS_COLOR
 
-
 PROJECT_TASK_READABLE_FIELDS = {
     'id',
     'active',
@@ -908,11 +907,8 @@ class Project(models.Model):
             'icon': 'tasks',
             'text': _lt('Tasks'),
             'number': self.task_count,
-            'action_type': 'action',
-            'action': 'project.act_project_project_2_project_task_all',
-            'additional_context': json.dumps({
-                'active_id': self.id,
-            }),
+            'action_type': 'object',
+            'action': 'action_view_tasks',
             'show': True,
             'sequence': 3,
         }]
@@ -1516,7 +1512,7 @@ class Task(models.Model):
                 task.repeat_week,
                 task.repeat_month,
                 count=number_occurrences)
-            date_format = self.env['res.lang']._lang_get(self.env.user.lang).date_format
+            date_format = self.env['res.lang']._lang_get(self.env.user.lang).date_format or get_lang(self.env).date_format
             if recurrence_left == 0:
                 recurrence_title = _('There are no more occurrences.')
             else:
@@ -2374,10 +2370,6 @@ class Task(models.Model):
 
         project_user_group_id = self.env.ref('project.group_project_user').id
         new_group = ('group_project_user', lambda pdata: pdata['type'] == 'user' and project_user_group_id in pdata['groups'], {})
-        if not self.user_ids and not self.is_closed:
-            take_action = self._notify_get_action_link('assign', **local_msg_vals)
-            project_actions = [{'url': take_action, 'title': _('I take it')}]
-            new_group[2]['actions'] = project_actions
         groups = [new_group] + groups
 
         if self.project_privacy_visibility == 'portal':

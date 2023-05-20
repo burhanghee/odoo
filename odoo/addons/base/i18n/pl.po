@@ -38,10 +38,10 @@
 # Radosław Wierzgała, 2023
 # Grzegorz Grzelak <grzegorz.grzelak@openglobe.pl>, 2023
 # Maksym <ms@myodoo.pl>, 2023
-# Tadeusz Karpiński <tadeuszkarpinski@gmail.com>, 2023
 # Radosław Biegalski <radoslaw.biegalski@openglobe.pl>, 2023
 # Piotr Szlązak <szlazakpiotr@gmail.com>, 2023
 # Paweł Wodyński <pw@myodoo.pl>, 2023
+# Tadeusz Karpiński <tadeuszkarpinski@gmail.com>, 2023
 # 
 msgid ""
 msgstr ""
@@ -49,7 +49,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-04-14 06:17+0000\n"
 "PO-Revision-Date: 2022-09-22 05:44+0000\n"
-"Last-Translator: Paweł Wodyński <pw@myodoo.pl>, 2023\n"
+"Last-Translator: Tadeusz Karpiński <tadeuszkarpinski@gmail.com>, 2023\n"
 "Language-Team: Polish (https://app.transifex.com/odoo/teams/41243/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -12134,6 +12134,8 @@ msgid ""
 "Below text serves as a suggestion and doesn’t engage Odoo S.A. "
 "responsibility."
 msgstr ""
+"Poniższy tekst służy jako sugestia i nie wiąże się z odpowiedzialnością Odoo"
+" S.A."
 
 #. module: base
 #: model:res.country,name:base.bj
@@ -13321,7 +13323,7 @@ msgstr "Dane firmy"
 #. module: base
 #: model:ir.model.fields,field_description:base.field_res_company__company_details
 msgid "Company Details"
-msgstr ""
+msgstr "Dane firmy"
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_res_company__favicon
@@ -15098,7 +15100,7 @@ msgstr ""
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_account_disallowed_expenses
 msgid "Disallowed Expenses"
-msgstr ""
+msgstr "Wydatki niekwalifikowane"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_account_disallowed_expenses_fleet
@@ -15839,7 +15841,7 @@ msgstr "Raportowanie umów pracowniczych"
 #. module: base
 #: model:ir.module.category,name:base.module_category_services_employee_hourly_cost
 msgid "Employee Hourly Cost"
-msgstr ""
+msgstr "Koszt godzinowy pracownika"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_hr_hourly_cost
@@ -15918,7 +15920,7 @@ msgstr ""
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.enable_profiling_wizard
 msgid "Enable profiling"
-msgstr ""
+msgstr "Włącz profilowanie"
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_base_enable_profiling_wizard__duration
@@ -23534,6 +23536,7 @@ msgstr ""
 #: model_terms:ir.actions.act_window,help:base.action_partner_customer_form
 msgid "Odoo helps you easily track all activities related to a customer."
 msgstr ""
+"Odoo pomaga w łatwy sposób śledzić wszystkie działania związane z klientem."
 
 #. module: base
 #: model_terms:ir.actions.act_window,help:base.action_partner_supplier_form
@@ -23842,7 +23845,7 @@ msgstr "Szansa do oferty"
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_sale_renting_crm
 msgid "Opportunity to Rental"
-msgstr ""
+msgstr "Szansa do Wynajmu"
 
 #. module: base
 #: model:ir.model.fields.selection,name:base.selection__base_partner_merge_automatic_wizard__state__option
@@ -26697,7 +26700,7 @@ msgstr "SSL/TLS"
 #. module: base
 #: model_terms:res.company,invoice_terms_html:base.main_company
 msgid "STANDARD TERMS AND CONDITIONS OF SALE"
-msgstr ""
+msgstr "STANDARDOWE WARUNKI SPRZEDAŻY"
 
 #. module: base
 #: model:res.country,name:base.bl
@@ -29087,6 +29090,9 @@ msgid ""
 "country format. You can use '/' to indicate that the partner is not subject "
 "to tax."
 msgstr ""
+"Numer identyfikacji podatkowej. Wartości tutaj będą walidowane w oparciu o "
+"format kraju. Możesz użyć '/', aby wskazać, że partner nie podlega "
+"opodatkowaniu."
 
 #. module: base
 #: model:ir.model.constraint,message:base.constraint_res_lang_url_code_uniq
@@ -29124,6 +29130,10 @@ msgid ""
 "order to be valid, any derogation must be expressly agreed to in advance in "
 "writing."
 msgstr ""
+"Klient wyraźnie rezygnuje z własnych warunków standardowych, nawet jeśli "
+"zostały one sporządzone po niniejszych standardowych warunkach sprzedaży. "
+"Aby odstępstwo było ważne, musi być wcześniej wyraźnie uzgodnione w formie "
+"pisemnej."
 
 #. module: base
 #: model:ir.model.constraint,message:base.constraint_res_country_code_uniq
@@ -29794,7 +29804,7 @@ msgstr "To okno"
 #. module: base
 #: model:ir.model.fields,help:base.field_res_partner_bank__allow_out_payment
 msgid "This account can be used for outgoing payments"
-msgstr ""
+msgstr "Konto to może być wykorzystywane do płatności wychodzących"
 
 #. module: base
 #. odoo-python
@@ -30619,6 +30629,15 @@ msgid ""
 "- 'Create Next Activity': create an activity (Discuss)\n"
 "- 'Send SMS Text Message': send SMS, log them on documents (SMS)"
 msgstr ""
+"Typ działania serwera. Dostępne są następujące wartości:\n"
+"- 'Wykonaj kod Python': blok kodu python, który zostanie wykonany\n"
+"- \"Utwórz nowy rekord\": utworzenie nowego rekordu z nowymi wartościami\n"
+"- \"Aktualizacja rekordu\": aktualizacja wartości rekordu\n"
+"- \"Wykonaj kilka działań\": zdefiniowanie akcji, która uruchamia kilka innych akcji serwera\n"
+"- \"Wyślij Email': umieść wiadomość, notatkę lub wyślij email (Discuss)\n"
+"- 'Dodaj followersów': dodawanie followersów do rekordu (dyskusja)\n"
+"- Tworzenie następnej aktywności': tworzenie aktywności (Dyskusja)\n"
+"- 'Wyślij wiadomość SMS': wyślij SMS, zaloguj je na dokumentach (SMS)"
 
 #. module: base
 #: model:ir.model.fields,help:base.field_ir_model_constraint__type
@@ -33042,7 +33061,7 @@ msgstr "many2one_reference"
 #: code:addons/base/models/ir_qweb_fields.py:0
 #, python-format
 msgid "minute"
-msgstr ""
+msgstr "minuta"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.demo_failures_dialog

@@ -3,6 +3,7 @@
 # 	* analytic
 # 
 # Translators:
+# Kevilyn Rosa, 2023
 # Martin Trigaux, 2023
 # 
 msgid ""
@@ -133,6 +134,12 @@ msgstr ""
 #. module: analytic
 #: model:ir.actions.act_window,name:analytic.action_analytic_distribution_model
 msgid "Analytic Distribution Models"
+msgstr ""
+
+#. module: analytic
+#: model:ir.model.fields,field_description:analytic.field_account_analytic_distribution_model__analytic_distribution_search
+#: model:ir.model.fields,field_description:analytic.field_analytic_mixin__analytic_distribution_search
+msgid "Analytic Distribution Search"
 msgstr ""
 
 #. module: analytic
@@ -463,7 +470,7 @@ msgstr "Agrupar por..."
 #. module: analytic
 #: model:ir.model.fields,field_description:analytic.field_account_analytic_account__has_message
 msgid "Has Message"
-msgstr ""
+msgstr "Análise de Previsão:"
 
 #. module: analytic
 #: model:ir.model.fields,field_description:analytic.field_account_analytic_account__id
@@ -658,6 +665,13 @@ msgstr ""
 #: model:account.analytic.account,name:analytic.analytic_internal
 msgid "Operating Costs"
 msgstr ""
+
+#. module: analytic
+#. odoo-python
+#: code:addons/analytic/models/analytic_mixin.py:0
+#, python-format
+msgid "Operation not supported"
+msgstr "Operação não suportada."
 
 #. module: analytic
 #. odoo-javascript
