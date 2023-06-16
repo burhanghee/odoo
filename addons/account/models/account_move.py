@@ -689,7 +689,7 @@ class AccountMove(models.Model):
                     if move._get_last_sequence(lock=False):
                         # The name does not match the date and the move is not the first in the period:
                         # Reset to draft
-                        move.name = '/'
+                        move.name = False
                         continue
                 else:
                     if move_has_name and move.posted_before or not move_has_name and move._get_last_sequence(lock=False):
@@ -701,7 +701,7 @@ class AccountMove(models.Model):
             if move.date and (not move_has_name or not move._sequence_matches_date()):
                 move._set_next_sequence()
 
-        self.filtered(lambda m: not m.name).name = '/'
+        self.filtered(lambda m: not m.name and not move.quick_edit_mode).name = '/'
         self._inverse_name()
 
 
@@ -1204,11 +1204,27 @@ class AccountMove(models.Model):
                             handle_price_include=False,
                         ))
                 move.tax_totals = self.env['account.tax']._prepare_tax_totals(**kwargs)
-                rounding_line = move.line_ids.filtered(lambda l: l.display_type == 'rounding')
-                if rounding_line:
-                    amount_total_rounded = move.tax_totals['amount_total'] + sign * rounding_line.amount_currency
-                    move.tax_totals['amount_total_rounded'] = amount_total_rounded
-                    move.tax_totals['formatted_amount_total_rounded'] = formatLang(self.env, amount_total_rounded, currency_obj=move.currency_id) or ''
+                if move.invoice_cash_rounding_id:
+                    rounding_amount = move.invoice_cash_rounding_id.compute_difference(move.currency_id, move.tax_totals['amount_total'])
+                    totals = move.tax_totals
+                    totals['display_rounding'] = True
+                    if rounding_amount:
+                        if move.invoice_cash_rounding_id.strategy == 'add_invoice_line':
+                            totals['rounding_amount'] = rounding_amount
+                            totals['formatted_rounding_amount'] = formatLang(self.env, totals['rounding_amount'], currency_obj=move.currency_id)
+                            totals['amount_total_rounded'] = totals['amount_total'] + rounding_amount
+                            totals['formatted_amount_total_rounded'] = formatLang(self.env, totals['amount_total_rounded'], currency_obj=move.currency_id)
+                        elif move.invoice_cash_rounding_id.strategy == 'biggest_tax':
+                            if totals['subtotals_order']:
+                                max_tax_group = max((
+                                    tax_group
+                                    for tax_groups in totals['groups_by_subtotal'].values()
+                                    for tax_group in tax_groups
+                                ), key=lambda tax_group: tax_group['tax_group_amount'])
+                                max_tax_group['tax_group_amount'] += rounding_amount
+                                max_tax_group['formatted_tax_group_amount'] = formatLang(self.env, max_tax_group['tax_group_amount'], currency_obj=move.currency_id)
+                                totals['amount_total'] += rounding_amount
+                                totals['formatted_amount_total'] = formatLang(self.env, totals['amount_total'], currency_obj=move.currency_id)
             else:
                 # Non-invoice moves don't support that field (because of multicurrency: all lines of the invoice share the same currency)
                 move.tax_totals = None
@@ -1642,7 +1658,7 @@ class AccountMove(models.Model):
     @api.onchange('invoice_cash_rounding_id')
     def _onchange_invoice_cash_rounding_id(self):
         for move in self:
-            if move.invoice_cash_rounding_id and not move.invoice_cash_rounding_id.profit_account_id:
+            if move.invoice_cash_rounding_id.strategy == 'add_invoice_line' and not move.invoice_cash_rounding_id.profit_account_id:
                 return {'warning': {
                     'title': _("Warning for Cash Rounding Method: %s", move.invoice_cash_rounding_id.name),
                     'message': _("You must specifiy the Profit Account (company dependent)")
@@ -1862,7 +1878,7 @@ class AccountMove(models.Model):
             if self.invoice_cash_rounding_id.strategy == 'biggest_tax':
                 biggest_tax_line = None
                 for tax_line in self.line_ids.filtered('tax_repartition_line_id'):
-                    if not biggest_tax_line or tax_line.price_subtotal > biggest_tax_line.price_subtotal:
+                    if not biggest_tax_line or abs(tax_line.balance) > abs(biggest_tax_line.balance):
                         biggest_tax_line = tax_line
 
                 # No tax found.
@@ -2192,7 +2208,7 @@ class AccountMove(models.Model):
         return copied_am
 
     def _sanitize_vals(self, vals):
-        if 'invoice_line_ids' in vals and 'line_ids' in vals:
+        if vals.get('invoice_line_ids') and vals.get('line_ids'):
             # values can sometimes be in only one of the two fields, sometimes in
             # both fields, sometimes one field can be explicitely empty while the other
             # one is not, sometimes not...
@@ -2606,8 +2622,29 @@ class AccountMove(models.Model):
                     self.journal_id.company_id.account_purchase_tax_id
                 )
             taxes = self.fiscal_position_id.map_tax(taxes)
-        price_untaxed = taxes.with_context(force_price_include=True).compute_all(
-            self.quick_edit_total_amount - self.tax_totals['amount_total'])['total_excluded']
+
+        # When a payment term has an early payment discount and the company's epd computation is set to 'mixed', recomputing
+        # the untaxed amount should take in consideration the discount percentage otherwise we'd get a wrong value.
+        # Since in a payment term we can have multiple lines with multiple discounts, handling all cases can get
+        # complicated. For this we check that we have only one line with one discount and handle only this case.
+        # We also check that we have one percentage tax for the same reason.
+        # In one example: let's say: base = 100, discount = 2%, tax = 21%
+        # the total will be calculated as: total = base + (base * (1 - discount)) * tax
+        # If we manipulate the equation to get the base from the total, we'll have base = total / ((1 - discount) * tax + 1)
+        term_lines = self.invoice_payment_term_id.line_ids
+        discount_percentage = term_lines.discount_percentage if len(term_lines) == 1 else 0
+        remaining_amount = self.quick_edit_total_amount - self.tax_totals['amount_total']
+
+        if (
+                discount_percentage
+                and self.company_id.early_pay_discount_computation == 'mixed'
+                and len(taxes) == 1
+                and taxes.amount_type == 'percent'
+        ):
+            price_untaxed = self.currency_id.round(
+                remaining_amount / (((1.0 - discount_percentage / 100.0) * (taxes.amount / 100.0)) + 1.0))
+        else:
+            price_untaxed = taxes.with_context(force_price_include=True).compute_all(remaining_amount)['total_excluded']
         return {'account_id': account_id, 'tax_ids': taxes.ids, 'price_unit': price_untaxed}
 
     @api.onchange('quick_edit_mode', 'journal_id', 'company_id')
