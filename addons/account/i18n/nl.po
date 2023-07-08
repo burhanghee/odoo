@@ -6895,7 +6895,7 @@ msgstr "Van niet-handelsvorderingen"
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.view_account_move_line_filter
 msgid "From P&L accounts"
-msgstr "Van winst- en verliesrekeningen"
+msgstr "Van W&V-rekeningen"
 
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.view_account_move_line_filter
@@ -10562,7 +10562,7 @@ msgstr "Vervallen facturen, voorbij de vervaldatum"
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.view_account_move_line_filter
 msgid "P&L Accounts"
-msgstr "winst- en verliesrekeningen"
+msgstr "W&V-rekeningen"
 
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.res_config_settings_view_form
@@ -13870,6 +13870,17 @@ msgstr ""
 
 #. module: account
 #. odoo-python
+#: code:addons/account/models/account_bank_statement_line.py:0
+#, python-format
+msgid ""
+"%s reached an invalid state regarding its related statement line.\n"
+"To be consistent, the journal entry must always have exactly one suspense line."
+msgstr ""
+"%s heeft een ongeldige status bereikt met betrekking tot de bijhorende afschriftregel. \n"
+"Om consistent te zijn, moet de boeking altijd precies één regel met een tussenrekening hebben."
+
+#. module: account
+#. odoo-python
 #: code:addons/account/models/account_move.py:0
 #, python-format
 msgid "The Bill/Refund date is required to validate this document."
@@ -15859,6 +15870,11 @@ msgstr "Automatisch wisselkoersen bijwerken"
 #, python-format
 msgid "Upload"
 msgstr "Upload"
+
+#. module: account
+#: model_terms:ir.ui.view,arch_db:account.account_journal_dashboard_kanban_view
+msgid "Upload Invoices"
+msgstr "Upload facturen"
 
 #. module: account
 #. odoo-python

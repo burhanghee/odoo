@@ -4002,7 +4002,7 @@ msgstr "Pribadi"
 #: code:addons/project/static/src/components/project_right_side_panel/project_right_side_panel.xml:0
 #, python-format
 msgid "Profitability"
-msgstr ""
+msgstr "Profitabilitas"
 
 #. module: project
 #: model:ir.model.fields,field_description:project.field_project_update__progress
@@ -4580,7 +4580,7 @@ msgstr "Penelitian"
 #: model:account.analytic.account,name:project.analytic_research_development
 #: model:project.project,name:project.project_project_2
 msgid "Research & Development"
-msgstr ""
+msgstr "Penelitian & Pengembangan"
 
 #. module: project
 #. odoo-javascript

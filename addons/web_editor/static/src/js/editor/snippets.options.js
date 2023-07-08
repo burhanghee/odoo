@@ -3530,7 +3530,6 @@ const SnippetOptionWidget = Widget.extend({
      *
      * @param {string} name - an identifier for a type of update
      * @param {*} data
-     * @returns {Promise}
      */
     notify: function (name, data) {
         if (name === 'target') {
@@ -5216,6 +5215,11 @@ registry.layout_column = SnippetOptionWidget.extend({
             // were marked as such as they were allowed to have bare content in
             // the first place.
             return this.$target.is('.s_allow_columns');
+        } else if (params.optionsPossibleValues.selectCount) {
+            // TODO in master: use the option `data-name` that will be added.
+            // Hide the selectCount widget if the `s_nb_column_fixed` class is
+            // on the row.
+            return !this.$target[0].querySelector(":scope > .row.s_nb_column_fixed");
         }
         return this._super(...arguments);
     },
@@ -6502,8 +6506,13 @@ registry.BackgroundOptimize = ImageHandlerOption.extend({
      */
     async _loadImageInfo() {
         this.img = new Image();
+        // In the case of a parallax, the background of the snippet is actually
+        // set on a child <span> and should be focused here. This is necessary
+        // because, at this point, the $target has not yet been updated in the
+        // notify() method ("option_update" event), although the event is
+        // properly fired from the parallax.
         const targetEl = this.$target[0].classList.contains("oe_img_bg")
-            ? this.$target[0] : this.$target[0].querySelector(".oe_img_bg");
+            ? this.$target[0] : this.$target[0].querySelector(":scope > .s_parallax_bg.oe_img_bg");
         if (targetEl) {
             Object.entries(targetEl.dataset).filter(([key]) =>
                 isBackgroundImageAttribute(key)).forEach(([key, value]) => {
@@ -6567,6 +6576,7 @@ registry.BackgroundOptimize = ImageHandlerOption.extend({
      * @private
      */
     async _onBackgroundChanged(ev, previewMode) {
+        ev.stopPropagation();
         if (!previewMode) {
             this.trigger_up('snippet_edition_request', {exec: async () => {
                 await this._autoOptimizeImage();
