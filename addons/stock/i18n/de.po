@@ -121,8 +121,8 @@ msgstr ""
 " alle Produkte können reserviert. * Bereit: Der Transfer ist zur Bearbeitung"
 " bereit. (a) Die Versandbedingung ist „Sobald wie möglich“: Wenigstens ein "
 "Produkt kann reserviert werden. (b) Die Versandbedingung ist „Wenn alle "
-"Produkte bereit“: Alle Produkte können reserviert werden. * Erledigt: Der "
-"Transfer wurde getätigt. * Abgebrochen: Der Transfer wurde abgebrochen."
+"Produkte bereit sind“: Alle Produkte können reserviert werden. * Erledigt: "
+"Der Transfer wurde getätigt. * Abgebrochen: Der Transfer wurde abgebrochen."
 
 #. module: stock
 #. odoo-python
@@ -2313,7 +2313,7 @@ msgstr "Standard: Lagerentnahme"
 #. module: stock
 #: model:ir.model.fields,help:stock.field_stock_warehouse__route_ids
 msgid "Defaults routes through the warehouse"
-msgstr "Standard Routen im Lagerhaus"
+msgstr "Standardrouten im Lagerhaus"
 
 #. module: stock
 #: model_terms:ir.actions.act_window,help:stock.action_orderpoint
@@ -10200,7 +10200,7 @@ msgid ""
 "<i>apply</i> Odoo will process all the quantities."
 msgstr ""
 "Sie haben noch keine Menge als <i>erledigt</i> erfasst. Wenn Sie auf "
-"<i>anwenden</i> klicken, erfasst Odoo alle Mengen als erledigt."
+"<i>anwenden</i> klicken, verarbeitet Odoo alle Mengen."
 
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.view_backorder_confirmation

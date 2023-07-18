@@ -1929,7 +1929,7 @@ msgstr "Une erreur s'est produite lors de l'affichage du modèle"
 #: model:ir.ui.menu,name:website.menu_website_analytics
 #, python-format
 msgid "Analytics"
-msgstr "Analytics"
+msgstr "Analytique"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.cookie_policy
@@ -1939,7 +1939,7 @@ msgstr "Cookies analytiques et informations de confidentialité."
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.cookie_policy
 msgid "Analytics<br/>(optional)"
-msgstr "Analytiques <br/>(optionnel)"
+msgstr "Analytique <br/>(optionnel)"
 
 #. module: website
 #. odoo-javascript
@@ -7754,12 +7754,12 @@ msgstr "Tarte"
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.bs_debug_view
 msgid "Pill"
-msgstr "Pilule"
+msgstr "Bouton carré"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.snippet_options
 msgid "Pills"
-msgstr "Pilules"
+msgstr "Boutons carrés"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_website_form_options

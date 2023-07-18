@@ -3384,7 +3384,7 @@ msgid ""
 "Select the user responsible for approving \"Time Off\" of this employee.\n"
 "If empty, the approval is done by an Administrator or Approver (determined in settings/users)."
 msgstr ""
-"Wählen Sie den Benutzer, der für die Genehmigung der „Abwesenheit“ dieses Mitarbeiters zuständig ist.\n"
+"Wählen Sie den Benutzer, der für die Genehmigung der „Abwesenheiten“ dieses Mitarbeiters zuständig ist.\n"
 "Wenn leer, erfolgt die Genehmigung durch einen Administrator oder Genehmiger (festgelegt unter Einstellungen/Benutzer)."
 
 #. module: hr_holidays
@@ -4097,6 +4097,8 @@ msgstr "Zu genehmigende oder genehmigte Ansprüche"
 #: model_terms:ir.ui.view,arch_db:hr_holidays.view_hr_holidays_filter
 msgid "To Approve or Need Second Approval or Approved Time Off"
 msgstr ""
+"Zugenehmigen oder Zweite Genehmigung erforderlich oder Genehmigte "
+"Abwesenheit"
 
 #. module: hr_holidays
 #: model:ir.model.fields,field_description:hr_holidays.field_hr_employee__leave_date_to

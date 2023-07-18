@@ -965,7 +965,7 @@ export class OdooEditor extends EventTarget {
                             excludedClasses.push(klass);
                         }
                     }
-                    if (excludedClasses.every(c => this.options.renderingClasses.includes(c))) {
+                    if (excludedClasses.length && excludedClasses.every(c => this.options.renderingClasses.includes(c))) {
                         continue;
                     }
                 }
@@ -1226,6 +1226,13 @@ export class OdooEditor extends EventTarget {
      * @see historyUndo
      */
     historyRedo() {
+        // Current step is considered an uncommitted draft, so revert it,
+        // otherwise a redo would not be possible.
+        this.historyRevert(this._currentStep);
+        // At this point, _currentStep.mutations contains the current step's
+        // mutations plus the ones that revert it, with net effect zero.
+        this._currentStep.mutations = [];
+
         const pos = this._getNextRedoIndex();
         if (pos > 0) {
             this._historyStepsStates.set(this._historySteps[pos].id, 'consumed');
@@ -1948,7 +1955,7 @@ export class OdooEditor extends EventTarget {
             doJoin &&
             next &&
             !(next.previousSibling && next.previousSibling === joinWith) &&
-            this.editable.contains(next)
+            this.editable.contains(next) && (closestElement(joinWith,'TD') === closestElement(next, 'TD'))
         ) {
             const restore = preserveCursor(this.document);
             this.observerFlush();
@@ -3647,6 +3654,9 @@ export class OdooEditor extends EventTarget {
             const selection = this.document.getSelection();
             // Find previous character.
             let { focusNode, focusOffset } = selection;
+            if (!focusNode) {
+                return;
+            }
             let previousCharacter = focusOffset > 0 && focusNode.textContent[focusOffset - 1];
             if (!previousCharacter) {
                 focusNode = previousLeaf(focusNode);
@@ -3669,6 +3679,9 @@ export class OdooEditor extends EventTarget {
             const selection = this.document.getSelection();
             // Find next character.
             let { focusNode, focusOffset } = selection;
+            if (!focusNode) {
+                return;
+            }
             let nextCharacter = focusNode.textContent[focusOffset];
             if (!nextCharacter) {
                 focusNode = nextLeaf(focusNode);
@@ -4577,7 +4590,7 @@ export class OdooEditor extends EventTarget {
                         ? splitAroundUrl[i]
                         : 'https://' + splitAroundUrl[i];
                     // Even indexes will always be plain text, and odd indexes will always be URL.
-                    // only allow images emebed inside an existing link. No other url or video embed.
+                    // A url cannot be transformed inside an existing link.
                     if (i % 2 && !selectionIsInsideALink) {
                         this._applyCommand('insert', this._createLink(splitAroundUrl[i], url));
                     } else if (splitAroundUrl[i] !== '') {
@@ -4586,7 +4599,14 @@ export class OdooEditor extends EventTarget {
                         for (const textFragment of textFragments) {
                             this._applyCommand('insert', textFragment);
                             if (textIndex < textFragments.length) {
-                                this._applyCommand('oShiftEnter');
+                                // Break line by inserting new paragraph and
+                                // remove current paragraph's bottom margin.
+                                const p = closestElement(sel.anchorNode, 'p');
+                                if (this._applyCommand('oEnter') === UNBREAKABLE_ROLLBACK_CODE) {
+                                    this._applyCommand('oShiftEnter');
+                                } else if (p) {
+                                    p.style.marginBottom = '0px';
+                                }
                             }
                             textIndex++;
                         }

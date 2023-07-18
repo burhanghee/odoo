@@ -949,9 +949,13 @@ class AccountMove(models.Model):
                                 for move_type in x['counterpart_move_types']:
                                     reverse_move_types.add(move_type)
 
-                            if (invoice.move_type in ('in_invoice', 'in_receipt') and reverse_move_types == {'in_refund'}) \
-                              or (invoice.move_type in ('out_invoice', 'out_receipt') and reverse_move_types == {'out_refund'}) \
-                              or (invoice.move_type in ('entry', 'out_refund', 'in_refund') and reverse_move_types == {'entry'}):
+                            in_reverse = (invoice.move_type in ('in_invoice', 'in_receipt')
+                                          and (reverse_move_types == {'in_refund'} or reverse_move_types == {'in_refund', 'entry'}))
+                            out_reverse = (invoice.move_type in ('out_invoice', 'out_receipt')
+                                           and (reverse_move_types == {'out_refund'} or reverse_move_types == {'out_refund', 'entry'}))
+                            misc_reverse = (invoice.move_type in ('entry', 'out_refund', 'in_refund')
+                                            and reverse_move_types == {'entry'})
+                            if in_reverse or out_reverse or misc_reverse:
                                 new_pmt_state = 'reversed'
 
                     elif reconciliation_vals:
@@ -2340,6 +2344,29 @@ class AccountMove(models.Model):
                     super(AccountMove, move).write({'tax_totals': vals['tax_totals']})
 
         return res
+
+    def check_move_sequence_chain(self):
+        return self.filtered(lambda move: move.name != '/')._is_end_of_seq_chain()
+
+    @api.ondelete(at_uninstall=False)
+    def _unlink_forbid_parts_of_chain(self):
+        """ For a user with Billing/Bookkeeper rights, when the fidu mode is deactivated,
+        moves with a sequence number can only be deleted if they are the last element of a chain of sequence.
+        If they are not, deleting them would create a gap. If the user really wants to do this, he still can
+        explicitly empty the 'name' field of the move; but we discourage that practice.
+        If a user is a Billing Administrator/Accountant or if fidu mode is activated, we show a warning,
+        but they can delete the moves even if it creates a sequence gap.
+        """
+        if not (
+            self.user_has_groups('account.group_account_manager')
+            or self.company_id.quick_edit_mode
+            or self._context.get('force_delete')
+            or self.check_move_sequence_chain()
+        ):
+            raise UserError(_(
+                "You cannot delete this entry, as it has already consumed a sequence number and is not the last one in the chain. "
+                "You should probably revert it instead."
+            ))
 
     def unlink(self):
         self = self.with_context(skip_invoice_sync=True, dynamic_unlink=True)  # no need to sync to delete everything

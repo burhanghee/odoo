@@ -7587,6 +7587,31 @@ QUnit.module("Views", (hooks) => {
         );
     });
 
+    QUnit.test("click on a button cell in a list view", async (assert) => {
+        serverData.models.foo.records[0].foo = "bar";
+        await makeView({
+            type: "list",
+            resModel: "foo",
+            serverData,
+            arch: `
+                <tree editable="bottom" limit="1">
+                    <field name="foo"/>
+                    <button name="action_do_something" type="object" string="Action"/>
+                </tree>`,
+        });
+
+        // Need to set the line in edition. 
+        await click(target, "td[name=foo]");
+        assert.strictEqual(window.getSelection().toString(), "bar");
+
+        await click(target.querySelector(".o_data_cell.o_list_button"));
+        assert.strictEqual(
+            window.getSelection().toString(),
+            "bar",
+            "Focus should have returned to the editable cell without throwing an error"
+        );
+    });
+
     QUnit.test("click on a button in a list view", async function (assert) {
         assert.expect(10);
 
@@ -17259,6 +17284,33 @@ QUnit.module("Views", (hooks) => {
             "order:amount ASC, foo ASC", // order by amount
             "order:amount ASC, foo ASC", // go back to the list view, it should still be ordered by amount
         ]);
+    });
+
+    QUnit.test("list view: prevent record selection when editable list in edit mode", async function (assert) {
+        await makeView({
+            type: "list",
+            resModel: "foo",
+            serverData,
+            arch: `
+                <tree editable="top">
+                    <field name="foo" />
+                </tree>`,
+        });
+
+        //  When we try to select new record in edit mode
+        await click(target.querySelector('.o_list_buttons .o_list_button_add'));
+        await click(target.querySelector('.o_data_row .o_list_record_selector'));
+        assert.strictEqual(
+            target.querySelector('.o_data_row .o_list_record_selector input[type="checkbox"]').checked,
+            false
+        );
+
+        //  When we try to select all records in edit mode
+        await click(target.querySelector('th.o_list_record_selector.o_list_controller'));
+        assert.strictEqual(
+            target.querySelector('.o_list_controller input[type="checkbox"]').checked,
+            false
+        );
     });
 
     QUnit.test("context keys not passed down the stack and not to fields", async (assert) => {

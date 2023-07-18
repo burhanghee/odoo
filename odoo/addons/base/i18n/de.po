@@ -257,7 +257,7 @@ msgstr ""
 "Lokalisierungsmodul für Dänemark\n"
 "===============================\n"
 "\n"
-"Dies ist das Modul zur Verwaltung des **Kontenplans für Denmark**. Sowohl Einzelunternehmen als auch I/S, IVS, ApS und A/S\n"
+"Dies ist das Modul zur Verwaltung des **Kontenplans für Dänemark**. Sowohl Einzelunternehmen als auch I/S, IVS, ApS und A/S\n"
 "\n"
 "**Modulet opsætter:**\n"
 "\n"
@@ -2936,7 +2936,7 @@ msgstr ""
 "* Kontenplan, basierend auf einer Empfehlung von Super Cías\n"
 "* Ecuadorianische Steuern, Steuerkennzeichen und Steuergruppen\n"
 "* Ecuadorianische Steuerpositionen\n"
-"* Dokumenttypen (in Ecuador gibt es etwa 41 Arten von Kaufbelegen)\n"
+"* Dokumenttypen (in Ecuador gibt es etwa 41 Arten von Einkaufsbelegen)\n"
 "* Identifikationstypen\n"
 "* Ecuadorianische Banken\n"
 "* Partner: Consumidor Final, SRI, IESS, und auch grundlegende Mehrwertsteuer-Validierung"
@@ -3008,7 +3008,7 @@ msgid ""
 msgstr ""
 "\n"
 "Erstellen Sie kurze Links mit Analytics-Trackern (UTM), um Ihre Seiten über Marketingkampagnen freizugeben.\n"
-"Diese Tracker können in Google Analytics verwendet werden, um Klicks und Besucher zu verfolgen, oder in Odoo-Berichten, um die Effizienz dieser Kampagnen in Bezug auf die Leadgenerierung, damit verbundene Einnahmen (Verkaufsaufträge), Einstellung usw. zu analysieren.\n"
+"Diese Tracker können in Google Analytics verwendet werden, um Klicks und Besucher zu verfolgen, oder in Odoo-Berichten, um die Effizienz dieser Kampagnen in Bezug auf die Lead-Generierung, damit verbundene Einnahmen (Verkaufsaufträge), Einstellung usw. zu analysieren.\n"
 "    "
 
 #. module: base
@@ -5886,7 +5886,7 @@ msgstr ""
 "\n"
 "Dieses Modul testet die wichtigsten Ereignisabläufe von Odoo, sowohl im Front-End als auch im Back-End.\n"
 "Es installiert Verkaufsfunktionen, Front-End-Flow, E-Commerce, Fragen und\n"
-"automatische Leadgenerierung, vollständige Online-Unterstützung ...\n"
+"automatische Lead-Generierung, vollständige Online-Unterstützung ...\n"
 
 #. module: base
 #: model:ir.module.module,description:base.module_test_main_flows
@@ -6216,7 +6216,7 @@ msgid ""
 "    "
 msgstr ""
 "\n"
-"WMS-Buchhaltungsmodul\n"
+"Modul für Lagerverwaltung und Buchhaltung\n"
 "======================\n"
 "Dieses Modul fügt das Preisdifferenzkonto hinzu. Wird in der permanenten Standardbewertung verwendet.\n"
 "    "
@@ -6240,9 +6240,9 @@ msgid ""
 "    "
 msgstr ""
 "\n"
-"Modul für Lagerverwaltungs und Buchhaltung\n"
+"Modul für Lagerverwaltung und Buchhaltung\n"
 "================================\n"
-"Dieses Modul stellt die Verbindung zwischen dem ¢„Lager“- und dem „Buchhaltungs“-Modul her und ermöglicht es Ihnen, Ihre Lagerbuchungen zu bewerten.\n"
+"Dieses Modul stellt die Verbindung zwischen dem ¢„Lager“- und dem „Buchhaltung“-Modul her und ermöglicht es Ihnen, Ihre Lagerbuchungen zu bewerten.\n"
 "\n"
 "Haupteigenschaften\n"
 "-----------------------\n"
@@ -7142,6 +7142,7 @@ msgstr "<code>Command</code>: x2Many-Befehlsnamensfeld"
 msgid ""
 "<code>UserError</code>: Warning Exception to use with <code>raise</code>"
 msgstr ""
+"<code>UserError</code>: Warnungsausnahme zu verwenden mit <code>raise</code>"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.view_model_fields_form
@@ -8054,7 +8055,7 @@ msgstr "Kontoinhaber"
 #. module: base
 #: model:ir.model.fields,field_description:base.field_res_partner_bank__acc_holder_name
 msgid "Account Holder Name"
-msgstr "Kontoinhaber"
+msgstr "Kontoinhabername"
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_res_partner_bank__acc_number
@@ -8071,8 +8072,7 @@ msgstr "Kontosicherheit"
 msgid ""
 "Account holder name, in case it is different than the name of the Account "
 "Holder"
-msgstr ""
-"Name des Kontoinhabers, wenn dieser nicht der Names des Kontoinhabers ist"
+msgstr "Kontoinhabername, wenn dieser nicht der Name des Kontoinhabers ist"
 
 #. module: base
 #: model:ir.module.category,name:base.module_category_accounting
@@ -10471,7 +10471,7 @@ msgstr "Tschad"
 #. module: base
 #: model:ir.actions.act_window,name:base.action_res_users_my
 msgid "Change My Preferences"
-msgstr "Meine Präferenzen jetzt ändern"
+msgstr "Meine Präferenzen ändern"
 
 #. module: base
 #: model:ir.actions.act_window,name:base.change_password_wizard_action
@@ -16211,7 +16211,12 @@ msgid "Invalid 'group by' parameter"
 msgstr "Fehlerhafter „group by“-Parameter"
 
 #. module: base
-#. odoo-python
+#: code:addons/base/models/ir_default.py:0
+#, python-format
+msgid "Invalid JSON format in Default Value field."
+msgstr "Ungültiges JSON-Format im Standardwertfeld."
+
+#. module: base
 #: code:addons/models.py:0
 #, python-format
 msgid "Invalid aggregation function %r."
@@ -16298,7 +16303,7 @@ msgstr "Ungültiges Modus-Attribut:"
 #: code:addons/base/models/ir_actions.py:0
 #, python-format
 msgid "Invalid model name %r in action definition."
-msgstr "Ungültiger Modulname %r in der Aktionsdefinition."
+msgstr "Ungültiger Modellname %r in der Aktionsdefinition."
 
 #. module: base
 #. odoo-python
@@ -17143,12 +17148,12 @@ msgstr "Lead-Anreicherung"
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_crm_iap_mine
 msgid "Lead Generation"
-msgstr "Leadgenerierung"
+msgstr "Lead-Generierung"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_website_crm_iap_reveal
 msgid "Lead Generation From Website Visits"
-msgstr "Leadgenerierung aus Website-Besuchen"
+msgstr "Lead-Generierung aus Website-Besuchen"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_website_crm_livechat
@@ -20679,7 +20684,7 @@ msgstr ""
 "WYSIWYG-Seiteneditoren nicht möglich ist.\n"
 "\n"
 "Ob für Produktbeschreibungen, Blogs oder statische Seiten, Sie müssen kein\n"
-"professioneller Designer sein, um saubere Inhalte zu erstellen. Einfach per Drag&Drop einfügen und\n"
+"professioneller Designer sein, um saubere Inhalte zu erstellen. Einfach per Drag-and-drop-Funktion einfügen und\n"
 "vordefinierte Bausteine anpassen.\n"
 "\n"
 "Betriebsbereit, sofort startklar\n"
@@ -20696,8 +20701,8 @@ msgstr ""
 "-------------------------\n"
 "\n"
 "Erhalten Sie eine mobilfreundliche Website dank unseres dynamischen Designs, das auf\n"
-"Bootstrap beruht. Alle Ihre Seiten passen sich automatisch an die Bildschirmgröße an.\n"
-"(Handys, Tablets, Desktop) Dank der standardmäßigen Integration müssen Sie sich nicht um mobile Inhalte kümmern.\n"
+"Bootstrap beruht. Alle Ihre Seiten passen sich automatisch an die Bildschirmgröße an (Handys, Tablets, Desktop).\n"
+"Dank der standardmäßigen Integration müssen Sie sich nicht um mobile Inhalte kümmern.\n"
 "\n"
 "SEO-Tools auf Knopfdruck\n"
 "-----------------------------\n"
@@ -25254,7 +25259,7 @@ msgstr "Konfiguration beginnen"
 #: model_terms:ir.ui.view,arch_db:base.view_partner_form
 #: model_terms:ir.ui.view,arch_db:base.view_res_bank_form
 msgid "State"
-msgstr "Bundesland/Region"
+msgstr "Status"
 
 #. module: base
 #: model:ir.model.fields,field_description:base.field_res_country_state__code
@@ -27532,6 +27537,13 @@ msgstr ""
 
 #. module: base
 #. odoo-python
+#: code:addons/base/models/ir_fields.py:0
+#, python-format
+msgid "Unable to import field type '%s'  "
+msgstr "Feldtyp „%s“ konnte nicht importiert werden  "
+
+#. module: base
+#. odoo-python
 #: code:addons/base/models/ir_module.py:0
 #, python-format
 msgid ""
@@ -28707,7 +28719,7 @@ msgid ""
 "amount of the expense."
 msgstr ""
 "Bei der Weiterberechnung der Ausgabe auf dem Verkaufsauftrag setzen Sie die "
-"Kosten auf den gesamten unversteuerten Betrag der Ausgabe."
+"Kosten auf den gesamten Nettobetrag der Ausgabe."
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.sequence_view
@@ -28960,6 +28972,17 @@ msgstr ""
 #, python-format
 msgid "You can not create recursive tags."
 msgstr "Sie können keine rekursiven Stichwörter erstellen."
+
+#. module: base
+#. odoo-python
+#: code:addons/base/models/res_users.py:0
+#, python-format
+msgid ""
+"Deleting the template users is not allowed. Deleting this profile will "
+"compromise critical functionalities."
+msgstr ""
+"Es ist nicht erlaubt, den Vorlagenbenutzer zu löschen, Durch das Löschen "
+"dieses Profils werden wichtige Funktionen beeinträchtigt."
 
 #. module: base
 #: model:ir.model.constraint,message:base.constraint_res_users_login_key
