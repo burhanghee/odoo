@@ -53,3 +53,4 @@ package.json
 tsconfig.json
 ax-addons/
 openerp-server.conf
+ax-addons-16/
