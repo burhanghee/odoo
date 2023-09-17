@@ -5,8 +5,8 @@
 # Translators:
 # Gunther Clauwaert <gclauwae@hotmail.com>, 2022
 # Martin Trigaux, 2022
-# Jolien De Paepe, 2023
 # Wil Odoo, 2023
+# Jolien De Paepe, 2023
 # Erwin van der Ploeg <erwin@odooexperts.nl>, 2023
 # 
 msgid ""
@@ -338,7 +338,7 @@ msgstr "<span class=\"mx-2 o_wsale_ppr_by\">door</span>"
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.res_config_settings_view_form
 msgid "<span class=\"o_form_label\">Assignment</span>"
-msgstr "<span class=\"o_form_label\">Opdracht</span>"
+msgstr "<span class=\"o_form_label\">Toewijzing</span>"
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.res_config_settings_view_form
@@ -1219,6 +1219,17 @@ msgid ""
 msgstr ""
 "Het wijzigen van je naam is niet toegestaan zodra facturen zijn uitgegeven voor je account. \n"
 "Neem direct contact met ons op voor deze bewerking."
+
+#. module: website_sale
+#. odoo-python
+#: code:addons/website_sale/controllers/main.py:0
+#, python-format
+msgid ""
+"Changing your name is not allowed once documents have been issued for your "
+"account. Please contact us directly for this operation."
+msgstr ""
+"Het is niet toegestaan om je naam te wijzigen nadat de documenten voor je "
+"account zijn uitgegeven. Neem hiervoor rechtstreeks contact met ons op."
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.snippet_options

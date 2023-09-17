@@ -8,8 +8,8 @@
 # Jinjiu Liu, 2022
 # Dylan Kiss, 2023
 # Martin Trigaux, 2023
-# Jolien De Paepe, 2023
 # Wil Odoo, 2023
+# Jolien De Paepe, 2023
 # Erwin van der Ploeg <erwin@odooexperts.nl>, 2023
 # 
 msgid ""
@@ -3644,6 +3644,17 @@ msgstr ""
 #, python-format
 msgid "Cannot generate an unused account code."
 msgstr "Kan geen ongebruikte rekeningcode genereren."
+
+#. module: account
+#. odoo-python
+#: code:addons/account/models/account_journal.py:0
+#, python-format
+msgid ""
+"Cannot generate an unused journal code. Please change the name for journal "
+"%s."
+msgstr ""
+"Kan geen ongebruikte dagboekcode genereren. Verander de naam van het dagboek"
+" %s."
 
 #. module: account
 #. odoo-python
@@ -9169,7 +9180,7 @@ msgstr "MEM"
 #: model:ir.model.fields,field_description:account.field_account_move__made_sequence_hole
 #: model:ir.model.fields,field_description:account.field_account_payment__made_sequence_hole
 msgid "Made Sequence Hole"
-msgstr "Gemaakt sequentiegat"
+msgstr "Heeft gat in volgnummer veroorzaakt"
 
 #. module: account
 #: model:ir.model.fields,field_description:account.field_account_invoice_send__mail_activity_type_id

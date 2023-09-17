@@ -565,7 +565,7 @@ class MailThread(models.AbstractModel):
             if getattr(field, 'tracking', None) or getattr(field, 'track_visibility', None)
         }
 
-        return model_fields and set(self.fields_get(model_fields))
+        return model_fields and set(self.fields_get(model_fields, attributes=()))
 
     def _track_subtype(self, initial_values):
         """ Give the subtypes triggered by the changes on the record according
@@ -594,7 +594,7 @@ class MailThread(models.AbstractModel):
         if not fields_iter:
             return {}
 
-        tracked_fields = self.fields_get(fields_iter)
+        tracked_fields = self.fields_get(fields_iter, attributes=('string', 'type', 'selection', 'currency_field'))
         tracking = dict()
         for record in self:
             try:
@@ -1771,6 +1771,9 @@ class MailThread(models.AbstractModel):
         done_partners += [partner for partner in partners]
         remaining = [email for email in normalized_emails if email not in [partner.email_normalized for partner in done_partners]]
 
+        # prioritize current user if exists in list
+        done_partners.sort(key=lambda p: self.env.user.partner_id != p)
+
         # iterate and keep ordering
         partners = []
         for contact in emails:
@@ -1930,7 +1933,7 @@ class MailThread(models.AbstractModel):
                         node.set('src', '/web/image/%s?access_token=%s' % attachment_data)
                         postprocessed = True
                 if postprocessed:
-                    return_values['body'] = lxml.html.tostring(root, pretty_print=False, encoding='UTF-8')
+                    return_values['body'] = lxml.html.tostring(root, pretty_print=False, encoding='unicode')
         return_values['attachment_ids'] = m2m_attachment_ids
         return return_values
 
