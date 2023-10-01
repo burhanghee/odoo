@@ -284,6 +284,8 @@ class HrContract(models.Model):
         # Generate work entries between 2 dates (datetime.datetime)
         # This method considers that the dates are correctly localized
         # based on the target timezone
+        date_start = datetime.combine(date_start, datetime.min.time())
+        date_stop = datetime.combine(date_stop, datetime.max.time())
         assert isinstance(date_start, datetime)
         assert isinstance(date_stop, datetime)
         self = self.with_context(tracking_disable=True)
