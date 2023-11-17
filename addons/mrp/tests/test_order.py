@@ -1396,6 +1396,79 @@ class TestMrpOrder(TestMrpCommon):
         subassembly_mo2.lot_producing_id = subassembly_sn
         subassembly_mo2.button_mark_done()
 
+    def test_product_produce_duplicate_6(self):
+        """Produce a product for the second time with the same serial
+        after having unbuilt, scrapped and unscrapped the product"""
+        product = self.env["product.product"].create(
+            {
+                "name": "Product",
+                "type": "product",
+                "tracking": "serial",
+            }
+        )
+
+        sn = self.env["stock.lot"].create(
+            {
+                "name": "SN",
+                "product_id": product.id,
+                "company_id": self.env.company.id,
+            }
+        )
+
+        mo1_form = Form(self.env["mrp.production"])
+        mo1_form.product_id = product
+        mo1 = mo1_form.save()
+        mo1.action_confirm()
+        with Form(mo1) as mo:
+            mo.qty_producing = 1
+        mo1.lot_producing_id = sn
+        mo1.button_mark_done()
+
+        ub_form = Form(self.env["mrp.unbuild"])
+        ub_form.mo_id = mo1
+        ub = ub_form.save()
+        ub.action_unbuild()
+
+        scrap = self.env['stock.scrap'].create({
+            'product_id': product.id,
+            'product_uom_id': product.uom_id.id,
+            'lot_id': sn.id,
+        })
+        scrap.do_scrap()
+
+        unscrap_picking = self.env['stock.picking'].create({
+            'picking_type_id': self.env.ref('stock.picking_type_internal').id,
+            'location_id': scrap.scrap_location_id.id,
+            'location_dest_id': scrap.location_id.id,
+        })
+        unscrap_move = self.env['stock.move'].create({
+            'name': 'unscrap',
+            'location_id': scrap.scrap_location_id.id,
+            'location_dest_id': scrap.location_id.id,
+            'product_id': product.id,
+            'product_uom': product.uom_id.id,
+            'picking_id': unscrap_picking.id,
+        })
+        self.env['stock.move.line'].create({
+            'move_id': unscrap_move.id,
+            'product_id': unscrap_move.product_id.id,
+            'lot_id': sn.id,
+            'qty_done': 1,
+            'product_uom_id': unscrap_move.product_uom.id,
+            'picking_id': unscrap_move.picking_id.id,
+        })
+        unscrap_picking.action_confirm()
+        unscrap_picking.button_validate()
+
+        mo2_form = Form(self.env["mrp.production"])
+        mo2_form.product_id = product
+        mo2 = mo2_form.save()
+        mo2.action_confirm()
+        with Form(mo2) as mo:
+            mo.qty_producing = 1
+        mo2.lot_producing_id = sn
+        mo2.button_mark_done()
+
     def test_product_produce_12(self):
         """ Checks that, the production is robust against deletion of finished move."""
 
@@ -3543,7 +3616,7 @@ class TestMrpOrder(TestMrpCommon):
         warning.action_confirm()
         self.assertEqual(mo.state, 'done')
 
-    def test_exceeded_consumed_qty_and_duplicated_lines(self):
+    def test_exceeded_consumed_qty_and_duplicated_lines_01(self):
         """
         Two components C01, C02. C01 has the MTO route.
         MO with 1 x C01, 1 x C02, 1 x C02.
@@ -3585,3 +3658,68 @@ class TestMrpOrder(TestMrpCommon):
         p03_raws = mo.move_raw_ids.filtered(lambda m: m.product_id == product03)
         self.assertEqual(sum(p02_raws.mapped('quantity_done')), 1.5)
         self.assertEqual(sum(p03_raws.mapped('quantity_done')), 2)
+
+    def test_exceeded_consumed_qty_and_duplicated_lines_02(self):
+        """
+        One component C01, 2-steps manufacturing
+        MO with 1 x C01, 1 x C01
+        Process the MO and set a higher consumed qty for the first C01.
+        Ensure that the MO can still be processed and that the consumed quantities
+        are correct.
+        """
+        warehouse = self.env['stock.warehouse'].search([('company_id', '=', self.env.company.id)], limit=1)
+        warehouse.manufacture_steps = 'pbm'
+
+        finished, component = self.env['product.product'].create([{
+            'name': 'Product %s' % (i + 1),
+            'type': 'product',
+        } for i in range(2)])
+
+        mo_form = Form(self.env['mrp.production'])
+        mo_form.product_id = finished
+        mo_form.product_qty = 1
+        for _ in range(3):
+            with mo_form.move_raw_ids.new() as line:
+                line.product_id = component
+        mo = mo_form.save()
+        mo.action_confirm()
+
+        mo_form = Form(mo)
+        mo_form.qty_producing = 1.0
+        mo = mo_form.save()
+
+        mo.move_raw_ids[1].move_line_ids.qty_done = 1.5
+        mo.button_mark_done()
+
+        self.assertEqual(mo.state, 'done')
+
+        compo_raws = mo.move_raw_ids.filtered(lambda m: m.product_id == component)
+        self.assertEqual(sum(compo_raws.mapped('quantity_done')), 3.5)
+
+    def test_use_kit_as_component_in_production_without_bom(self):
+        """
+        Test that a MO is not cancelled when a kit is added in a MO without a BoM.
+        """
+        finished, component, kit = self.env['product.product'].create([{
+            'name': 'Product %s' % (i + 1),
+            'type': 'product',
+        } for i in range(3)])
+        self.env['mrp.bom'].create({
+            'product_id': kit.id,
+            'product_tmpl_id': kit.product_tmpl_id.id,
+            'type': 'phantom',
+            'bom_line_ids': [(0, 0, {
+                'product_id': component.id,
+                'product_qty': 1,
+            })],
+        })
+
+        mo_form = Form(self.env['mrp.production'])
+        mo_form.product_id = finished
+        mo_form.product_qty = 1
+        with mo_form.move_raw_ids.new() as line:
+            line.product_id = kit
+        mo = mo_form.save()
+        mo.action_confirm()
+        self.assertEqual(mo.state, 'confirmed')
+        self.assertEqual(mo.move_raw_ids.product_id, component)

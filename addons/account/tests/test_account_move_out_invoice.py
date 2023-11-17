@@ -341,6 +341,33 @@ class TestAccountMoveOutInvoiceOnchanges(AccountTestInvoicingCommon):
             'amount_total': 2760.0,
         })
 
+        # Check rounding.
+        decimal_precision_name = self.env['account.move.line']._fields['price_unit']._digits
+        decimal_precision = self.env['decimal.precision'].search([('name', '=', decimal_precision_name)])
+        decimal_precision.digits = 4
+
+        product.lst_price = 90.0034
+        invoice = self.env['account.move'].create({
+            'move_type': 'out_invoice',
+            'invoice_date': '2017-01-01',
+            'date': '2017-01-01',
+            'partner_id': self.partner_a.id,
+            'currency_id': self.currency_data['currency'].id,
+            'fiscal_position_id': fiscal_position.id,
+            'invoice_line_ids': [
+                Command.create({
+                    'name': 'test line',
+                    'product_id': product.id,
+                }),
+            ],
+        })
+        self.assertRecordValues(invoice.invoice_line_ids, [{
+            'price_unit': 163.6425, # 90.0034 / 1.10 * 2
+            'tax_ids': tax_price_exclude.ids,
+            'price_subtotal': 163.643,
+            'price_total': 188.189,
+        }])
+
     def test_out_invoice_line_onchange_product_2_with_fiscal_pos_2(self):
         ''' Test mapping a price-included tax (10%) with another price-included tax (20%) on a price_unit of 110.0.
         The price_unit should be 120.0 after applying the fiscal position.
@@ -3741,4 +3768,27 @@ class TestAccountMoveOutInvoiceOnchanges(AccountTestInvoicingCommon):
         self.assertEqual(
             duplicate_invoice.line_ids.filtered(lambda l: l.display_type == 'payment_term').account_id,
             other_receivable_account
+        )
+
+    def test_account_on_invoice_line_product_removal(self):
+        """Removing a product from an invoice line should preserve that line's account."""
+        other_income_account = self.product_a.property_account_income_id.copy()
+
+        invoice = self.env['account.move'].create({
+            'move_type': 'out_invoice',
+            'partner_id': self.partner_a.id,
+            'invoice_date': fields.Date.from_string('2019-01-01'),
+            'invoice_line_ids': [
+                Command.create({
+                    'product_id': self.product_a.id,
+                }),
+            ]
+        })
+        invoice.invoice_line_ids.account_id = other_income_account
+        invoice.invoice_line_ids.product_id = False
+
+        self.assertEqual(
+            invoice.invoice_line_ids.account_id,
+            other_income_account,
+            "Removing a product from an invoice line should no change the account."
         )
