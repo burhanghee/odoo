@@ -1722,7 +1722,7 @@ msgstr ""
 #. module: product
 #: model_terms:ir.actions.act_window,help:product.product_supplierinfo_type_action
 msgid "No vendor pricelist found"
-msgstr "Прейскурант поставщика не найден"
+msgstr "Прайс-лист поставщика не найден"
 
 #. module: product
 #: model:ir.model.fields.selection,name:product.selection__product_template__priority__0
@@ -2731,10 +2731,9 @@ msgid ""
 "expressed in the vendor Product Unit of Measure if not any, in the default "
 "unit of measure of the product otherwise."
 msgstr ""
-"Количество, которое необходимо приобрести у данного продавца, чтобы "
-"воспользоваться ценой, выраженной в единицах измерения продукта продавца, "
-"если таковых нет, в единицах измерения продукта по умолчанию, в противном "
-"случае."
+"Количество, которое необходимо приобрести у этого поставщика, чтобы "
+"воспользоваться выгодой от цены, выраженное в единицах измерения продукта "
+"поставщика, если таких единиц нет, в единицах по умолчанию."
 
 #. module: product
 #. odoo-python
