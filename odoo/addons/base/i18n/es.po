@@ -17,10 +17,10 @@
 # César J. Santacruz, 2023
 # Iran Villalobos López, 2024
 # David Ramia, 2024
-# Pedro M. Baeza <pedro.baeza@tecnativa.com>, 2024
 # Martin Trigaux, 2024
 # Wil Odoo, 2024
 # Larissa Manderfeld, 2024
+# Pedro M. Baeza <pedro.baeza@tecnativa.com>, 2024
 # 
 msgid ""
 msgstr ""
@@ -28,7 +28,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-02-06 13:33+0000\n"
 "PO-Revision-Date: 2022-09-22 05:44+0000\n"
-"Last-Translator: Larissa Manderfeld, 2024\n"
+"Last-Translator: Pedro M. Baeza <pedro.baeza@tecnativa.com>, 2024\n"
 "Language-Team: Spanish (https://app.transifex.com/odoo/teams/41243/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -15937,7 +15937,7 @@ msgstr "Etiqueta de acción del cliente"
 #: model_terms:ir.ui.view,arch_db:base.view_base_module_update
 #: model_terms:ir.ui.view,arch_db:base.wizard_lang_export
 msgid "Close"
-msgstr "Cerrado"
+msgstr "Cerrar"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.onboarding_container
@@ -31679,6 +31679,12 @@ msgid "Scheduled Actions Triggers"
 msgstr "Activadores de tareas programadas"
 
 #. module: base
+#: code:addons/base/models/ir_cron.py:0
+#, python-format
+msgid "Scheduled action disabled"
+msgstr "Acción programada deshabilitada"
+
+#. module: base
 #: model:ir.model.fields,field_description:base.field_ir_cron__user_id
 msgid "Scheduler User"
 msgstr "Usuario del planificador"
@@ -35040,9 +35046,19 @@ msgid "Those modules cannot be uninstalled: %s"
 msgstr "Estos módulos no pueden ser desinstalados: %s"
 
 #. module: base
+#: code:addons/base/models/ir_cron.py:0
+#, python-format
+msgid ""
+"This scheduled action has been disabled because its interval number is not a"
+" strictly positive value."
+msgstr ""
+"Esta acción programada ha sido desactivada. Su número de intervalo no es un "
+"valor estrictamente positivo."
+
+#. module: base
 #: model:ir.model.fields,field_description:base.field_res_lang__thousands_sep
 msgid "Thousands Separator"
-msgstr "Separador de millares"
+msgstr "Separador de miles"
 
 #. module: base
 #: model:ir.model.fields.selection,name:base.selection__res_lang__week_start__4
@@ -37476,6 +37492,17 @@ msgstr ""
 #, python-format
 msgid "You cannot delete the %s record."
 msgstr "No puede eliminar el registro %s."
+
+#. module: base
+#. odoo-python
+#: code:addons/base/models/res_users.py:0
+#, python-format
+msgid ""
+"You cannot delete the admin user because it is utilized in various places "
+"(such as security configurations,...). Instead, archive it."
+msgstr ""
+"No puede eliminar al usuario administrador, pues se usa en muchos lugares "
+"(como en configuraciones de seguridad). Mejor archívelo."
 
 #. module: base
 #. odoo-python

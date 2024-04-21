@@ -5,10 +5,10 @@
 # Translators:
 # Cécile Collart <cco@odoo.com>, 2022
 # Braulio D. López Vázquez <bdl@odoo.com>, 2022
-# Patricia Gutiérrez Capetillo <pagc@odoo.com>, 2022
 # Lucia Pacheco, 2023
 # Martin Trigaux, 2023
 # Iran Villalobos López, 2023
+# Patricia Gutiérrez Capetillo <pagc@odoo.com>, 2024
 # Fernanda Alvarez, 2024
 # 
 msgid ""
@@ -2178,7 +2178,7 @@ msgstr "Mostrar proyecto"
 #: model_terms:ir.ui.view,arch_db:project.view_task_project_user_search
 #: model_terms:ir.ui.view,arch_db:project.view_task_search_form
 msgid "Dissatisfied"
-msgstr "Inconforme"
+msgstr "Mal"
 
 #. module: project
 #. odoo-python
@@ -3065,7 +3065,7 @@ msgstr "Última modificación el"
 #. module: project
 #: model_terms:ir.ui.view,arch_db:project.project_task_burndown_chart_report_view_search
 msgid "Last Month"
-msgstr "Mes anterior"
+msgstr "Mes pasado"
 
 #. module: project
 #. odoo-python

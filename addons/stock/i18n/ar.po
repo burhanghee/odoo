@@ -4468,6 +4468,13 @@ msgid "Locations"
 msgstr "المواقع "
 
 #. module: stock
+#. odoo-python
+#: code:addons/stock/models/stock_picking.py:0
+#, python-format
+msgid "Locations to update"
+msgstr ""
+
+#. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.view_picking_form
 msgid "Lock"
 msgstr "قفل "
@@ -9949,6 +9956,8 @@ msgid ""
 "You cannot pack products into the same package when they are from different "
 "transfers with different operation types."
 msgstr ""
+"لا يمكنك حزم المنتجات في نفس الطرد عندما تكون من شحنات مختلفة مع أنواع "
+"عمليات مختلفة. "
 
 #. module: stock
 #. odoo-python

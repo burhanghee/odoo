@@ -49,6 +49,8 @@ import {
     fillEmpty,
     isEmptyBlock,
     getCursorDirection,
+    padLinkWithZws,
+    isLinkEligibleForZwnbsp,
 } from '../utils/utils.js';
 
 const TEXT_CLASSES_REGEX = /\btext-[^\s]*\b/;
@@ -295,7 +297,14 @@ export const editorCommands = {
         currentNode = lastChildNode || currentNode;
         selection.removeAllRanges();
         const newRange = new Range();
-        let lastPosition = rightPos(currentNode);
+        let lastPosition;
+        if (currentNode.nodeName === 'A' && isLinkEligibleForZwnbsp(editor.editable, currentNode)) {
+            padLinkWithZws(editor.editable, currentNode);
+            currentNode = currentNode.nextSibling;
+            lastPosition = getDeepestPosition(...rightPos(currentNode));
+        } else {
+            lastPosition = rightPos(currentNode);
+        }
         if (lastPosition[0] === editor.editable) {
             // Correct the position if it happens to be in the editable root.
             lastPosition = getDeepestPosition(...lastPosition);
@@ -781,6 +790,11 @@ export const editorCommands = {
         const cells = [...closestElement(cell, 'tr').querySelectorAll('th, td')];
         const index = cells.findIndex(td => td === cell);
         const siblingCell = cells[index - 1] || cells[index + 1];
+        if (table.style.width) {
+            const tableRect = table.getBoundingClientRect();
+            const cellRect = cell.getBoundingClientRect();
+            table.style.width = tableRect.width - cellRect.width + 'px';
+        }
         table.querySelectorAll(`tr td:nth-of-type(${index + 1})`).forEach(td => td.remove());
         siblingCell ? setSelection(...startPos(siblingCell)) : editorCommands.deleteTable(editor, table);
     },

@@ -111,6 +111,7 @@ class AccountEdiXmlUBLBIS3(models.AbstractModel):
         # EXTENDS account.edi.xml.ubl_21
         vals = super()._get_partner_party_vals(partner, role)
 
+        partner = partner.commercial_partner_id
         vals['endpoint_id'] = partner.vat
         vals['endpoint_id_attrs'] = {'schemeID': COUNTRY_EAS.get(partner.country_id.code)}
 
@@ -161,7 +162,7 @@ class AccountEdiXmlUBLBIS3(models.AbstractModel):
     def _get_delivery_vals_list(self, invoice):
         # EXTENDS account.edi.xml.ubl_21
         supplier = invoice.company_id.partner_id.commercial_partner_id
-        customer = invoice.commercial_partner_id
+        customer = invoice.partner_id
 
         economic_area = self.env.ref('base.europe').country_ids.mapped('code') + ['NO']
         intracom_delivery = (customer.country_id.code in economic_area
@@ -385,7 +386,11 @@ class AccountEdiXmlUBLBIS3(models.AbstractModel):
                 constraints.update({'cen_en16931_tax_line': _("Each invoice line shall have one and only one tax.")})
 
         for role in ('supplier', 'customer'):
-            constraints[f'cen_en16931_{role}_country'] = self._check_required_fields(vals[role], 'country_id')
+            constraints[f'cen_en16931_{role}_country'] = self._check_required_fields(
+                vals['vals'][f'accounting_{role}_party_vals']['party_vals']['postal_address_vals']['country_vals'],
+                'identification_code',
+                _("The country is required for the %s.", role)
+            )
             scheme_vals = vals['vals'][f'accounting_{role}_party_vals']['party_vals']['party_tax_scheme_vals'][-1:]
             if (
                 not (scheme_vals and scheme_vals[0]['company_id'] and scheme_vals[0]['company_id'][:2].isalpha())
@@ -484,9 +489,12 @@ class AccountEdiXmlUBLBIS3(models.AbstractModel):
         if vals['customer'].country_id.code == 'NO':
             constraints.update({
                 'no_customer_bronnoysund': _(
-                    "The supplier %s must have a Bronnoysund company registry.",
-                    vals['customer'].display_name
-                ) if 'l10n_no_bronnoysund_number' not in vals['customer']._fields or not vals['customer'].l10n_no_bronnoysund_number else "",
+                    "The customer %s must have a Bronnoysund company registry.",
+                    vals['customer'].commercial_partner_id.display_name
+                ) if (
+                    'l10n_no_bronnoysund_number' not in vals['customer']._fields
+                    or not vals['customer'].commercial_partner_id.l10n_no_bronnoysund_number
+                ) else "",
             })
 
         return constraints

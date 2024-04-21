@@ -139,7 +139,7 @@ msgid ""
 "\n"
 "Employee: %(employee_name)s"
 msgstr ""
-"Un empleado solo puede tener un contrato al mismo tiempo. (Sin incluir contratos en estado de borrador y cancelados).\n"
+"Un empleado solo puede tener un contrato al mismo tiempo (sin incluir contratos en estado de borrador y cancelados).\n"
 "\n"
 "Empleado: %(employee_name)s"
 
@@ -923,7 +923,7 @@ msgstr "Usuario"
 #. module: hr_contract
 #: model:ir.model.fields,field_description:hr_contract.field_hr_contract__visa_expire
 msgid "Visa Expiration Date"
-msgstr "Fecha de vencimiento de la Visa"
+msgstr "Fecha de vencimiento de la visa"
 
 #. module: hr_contract
 #: model:ir.model.fields,field_description:hr_contract.field_hr_contract__visa_no

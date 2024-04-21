@@ -55,7 +55,7 @@ msgstr " REEMBOLSO"
 #: code:addons/point_of_sale/static/src/xml/Screens/ProductScreen/NumpadWidget.xml:0
 #, python-format
 msgid "% Disc"
-msgstr "% Desc"
+msgstr "% de desc."
 
 #. module: point_of_sale
 #. odoo-python
@@ -971,8 +971,7 @@ msgstr ""
 #: model:ir.model.fields,help:point_of_sale.field_pos_config__iface_print_via_proxy
 msgid "Bypass browser printing and prints via the hardware proxy."
 msgstr ""
-"Omita la impresión del navegador y las impresiones a través del proxy del "
-"hardware."
+"Evite la impresión con el navegador e imprima mediante el proxy de hardware."
 
 #. module: point_of_sale
 #. odoo-javascript
@@ -5908,7 +5907,7 @@ msgstr "Los ajustes en esta página se aplicarán a este punto de venta."
 #: model:ir.model.fields,field_description:point_of_sale.field_res_config_settings__pos_ship_later
 #, python-format
 msgid "Ship Later"
-msgstr "Enviar más tarde"
+msgstr "Enviar después"
 
 #. module: point_of_sale
 #: model:ir.model.fields,field_description:point_of_sale.field_pos_config__picking_policy
@@ -6476,8 +6475,8 @@ msgid ""
 "The hostname or ip address of the hardware proxy, Will be autodetected if "
 "left empty."
 msgstr ""
-"El nombre del hospedador o la dirección IP del proxy del hardware se "
-"detectarán automáticamente si estos se dejan vacíos."
+"El nombre de host o la dirección IP del proxy de hardware. Se detectarán en "
+"automático si los campos están vacíos."
 
 #. module: point_of_sale
 #. odoo-python
@@ -7332,7 +7331,7 @@ msgstr "Utilizar código QR en el recibo"
 #. module: point_of_sale
 #: model:ir.model.fields,field_description:point_of_sale.field_pos_payment_method__use_payment_terminal
 msgid "Use a Payment Terminal"
-msgstr "Use una terminal de pago"
+msgstr "Usar una terminal de pago"
 
 #. module: point_of_sale
 #: model:ir.model.fields,field_description:point_of_sale.field_pos_config__use_pricelist
