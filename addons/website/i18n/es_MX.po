@@ -78,7 +78,7 @@ msgstr "\"URL a\" es inválido: %s"
 #: code:addons/website/models/website_rewrite.py:0
 #, python-format
 msgid "\"URL to\" must contain parameter %s used in \"URL from\"."
-msgstr "El \"URL a\" debe contener el parámetro %s que se utilizó en \"URL de\"."
+msgstr "\"URL a\" debe contener el parámetro %s que se utilizó en \"URL de\"."
 
 #. module: website
 #. odoo-python
@@ -7914,8 +7914,8 @@ msgstr "Preestablecido"
 #. odoo-javascript
 #: code:addons/website/static/src/components/fullscreen_indication/fullscreen_indication.js:0
 #, python-format
-msgid "Press %(key)s to exit full string"
-msgstr "Presione %(key)s para salir de la vista completa"
+msgid "Press %(key)s to exit full screen"
+msgstr "Presione %(key)s para salir de la pantalla completa"
 
 #. module: website
 #. odoo-javascript
@@ -9967,8 +9967,8 @@ msgid ""
 "in url. Keep it empty to use the default name of the record."
 msgstr ""
 "Este valor se escapará para que sea compatible con la mayoría de navegadores"
-" y se use en el URL. Manténgalo vacío para utilizar el nombre predeterminado"
-" del registro."
+" y se utilizará en la URL. Déjelo vacío para usar el nombre predeterminado "
+"del registro."
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.report_viewhierarchy_children

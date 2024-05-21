@@ -8,7 +8,7 @@
 # Pernille Kristensen <pernillekristensen1994@gmail.com>, 2022
 # Martin Trigaux, 2022
 # Mads Søndergaard, 2023
-# Sanne Kristensen <sanne@vkdata.dk>, 2023
+# Sanne Kristensen <sanne@vkdata.dk>, 2024
 # lhmflexerp <lhm@flexerp.dk>, 2024
 # 
 msgid ""
@@ -314,7 +314,7 @@ msgstr "1 Uge"
 #. module: stock
 #: model:ir.model.fields.selection,name:stock.selection__lot_label_layout__print_format__4x12
 msgid "4 x 12"
-msgstr ""
+msgstr "4 x 12"
 
 #. module: stock
 #. odoo-python
@@ -4080,7 +4080,7 @@ msgstr ""
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.stock_move_line_view_search
 msgid "Last 3 Months"
-msgstr ""
+msgstr "Seneste 3 måneder"
 
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.stock_move_line_view_search
@@ -7146,7 +7146,7 @@ msgstr "SMS leveringsfejl"
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.report_package_barcode_small
 msgid "SSCC:"
-msgstr ""
+msgstr "SSCC:"
 
 #. module: stock
 #: model_terms:res.company,invoice_terms_html:stock.res_company_1

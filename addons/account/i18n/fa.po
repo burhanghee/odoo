@@ -416,6 +416,8 @@ msgid ""
 "<br/>\n"
 "                            on this account:"
 msgstr ""
+"<br/>\n"
+"در این حساب"
 
 #. module: account
 #: model:mail.template,body_html:account.email_template_edi_credit_note
@@ -16803,6 +16805,9 @@ msgid ""
 "already posted.                 If you are absolutely sure you want to "
 "modify the opening balance of your accounts, reset the move to draft."
 msgstr ""
+"اگر سند اولیه (%s) ثبت شده باشد، نمی‌توانید «تراز اولیه» را وارد کنید. اگر  "
+"کاملاًَ اطمینان دارید که می‌خواهید تراز اولیه‌ی حساب‌های خود را تغییر دهید، "
+"سند را به حالت پیشنویس بازگردانید."
 
 #. module: account
 #. odoo-python

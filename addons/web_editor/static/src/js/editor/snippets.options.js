@@ -1759,8 +1759,8 @@ const MediapickerUserValueWidget = UserValueWidget.extend({
             noIcons: true,
             noDocuments: true,
             isForBgVideo: true,
-            vimeoPreviewIds: ['299225971', '414790269', '420192073', '368484050', '334729960', '417478345',
-                '312451183', '415226028', '367762632', '340475898', '374265101', '370467553'],
+            vimeoPreviewIds: ['528686125', '430330731', '509869821', '397142251', '763851966', '486931161',
+                '499761556', '392935303', '728584384', '865314310', '511727912', '466830211'],
             'res_model': $editable.data('oe-model'),
             'res_id': $editable.data('oe-id'),
             save,
@@ -1996,6 +1996,7 @@ const ListUserValueWidget = UserValueWidget.extend({
         'click we-select.o_we_user_value_widget.o_we_add_list_item': '_onAddItemSelectClick',
         'click we-button.o_we_checkbox_wrapper': '_onAddItemCheckboxClick',
         'change table input': '_onListItemChange',
+        'mousedown': '_onWeListMousedown',
     },
 
     /**
@@ -2326,8 +2327,24 @@ const ListUserValueWidget = UserValueWidget.extend({
     /**
      * @private
      */
-    _onListItemChange() {
-        this._notifyCurrentState();
+    _onListItemChange(ev) {
+        const timeSinceMousedown = ev.timeStamp - this.mousedownTime;
+        if (timeSinceMousedown < 500) {
+            // Without this "setTimeOut", "click" events are not triggered when
+            // clicking directly on a "we-button" of the "we-list" without first
+            // focusing out the input.
+            setTimeout(() => {
+                this._notifyCurrentState();
+            }, 500);
+        } else {
+            this._notifyCurrentState();
+        }
+    },
+    /**
+     * @private
+     */
+    _onWeListMousedown(ev) {
+        this.mousedownTime = ev.timeStamp;
     },
     /**
      * @private
