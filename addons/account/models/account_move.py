@@ -3457,6 +3457,25 @@ class AccountMove(models.Model):
 
         return reverse_moves
 
+    def _can_be_unlinked(self):
+        self.ensure_one()
+        lock_date = self.company_id._get_user_fiscal_lock_date()
+        return not self.inalterable_hash and self.date > lock_date
+
+    def _unlink_or_reverse(self):
+        if not self:
+            return
+        to_reverse = self.env['account.move']
+        to_unlink = self.env['account.move']
+        for move in self:
+            if move._can_be_unlinked():
+                to_unlink += move
+            else:
+                to_reverse += move
+        to_unlink.filtered(lambda m: m.state in ('posted', 'cancel')).button_draft()
+        to_unlink.filtered(lambda m: m.state == 'draft').unlink()
+        return to_reverse._reverse_moves(cancel=True)
+
     def _post(self, soft=True):
         """Post/Validate the documents.
 
@@ -4376,7 +4395,11 @@ class AccountMove(models.Model):
             force_email_company=force_email_company, force_email_lang=force_email_lang
         )
         subtitles = [render_context['record'].name]
-        if self.invoice_date_due and self.payment_state not in ('in_payment', 'paid'):
+        if (
+            self.invoice_date_due
+            and self.is_invoice(include_receipts=True)
+            and self.payment_state not in ('in_payment', 'paid')
+        ):
             subtitles.append(_('%(amount)s due\N{NO-BREAK SPACE}%(date)s',
                            amount=format_amount(self.env, self.amount_total, self.currency_id, lang_code=render_context.get('lang')),
                            date=format_date(self.env, self.invoice_date_due, date_format='short', lang_code=render_context.get('lang'))
