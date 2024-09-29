@@ -816,6 +816,11 @@ msgid "OpenWood Collection Online Reveal"
 msgstr ""
 
 #. module: website_event
+#: model_terms:ir.ui.view,arch_db:website_event.event_location
+msgid "Online Events"
+msgstr ""
+
+#. module: website_event
 #: model_terms:ir.ui.view,arch_db:website_event.event_description_full
 msgid "Organizer"
 msgstr "سازمان‌دهنده"
@@ -1111,7 +1116,7 @@ msgstr "امروز"
 #. module: website_event
 #: model_terms:ir.ui.view,arch_db:website_event.layout
 msgid "Toggle navigation"
-msgstr ""
+msgstr "toggle navigation"
 
 #. module: website_event
 #: model_terms:ir.ui.view,arch_db:website_event.snippet_options

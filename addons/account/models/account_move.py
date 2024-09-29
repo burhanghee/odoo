@@ -909,7 +909,7 @@ class AccountMove(models.Model):
                     JOIN account_move counterpart_move ON counterpart_move.id = counterpart_line.move_id
                     LEFT JOIN account_payment pay ON pay.id = counterpart_move.payment_id
                     WHERE source_line.move_id IN %s AND counterpart_line.move_id != source_line.move_id
-                    GROUP BY source_line_id, source_move_id, source_line_account_type
+                    GROUP BY source_line.id, source_line.move_id, account.account_type
                 ''')
 
             self._cr.execute(' UNION ALL '.join(queries), [stored_ids, stored_ids])
@@ -1005,6 +1005,7 @@ class AccountMove(models.Model):
                         untaxed_amount_currency=untaxed_amount_currency,
                         untaxed_amount=untaxed_amount,
                         company=invoice.company_id,
+                        cash_rounding=invoice.invoice_cash_rounding_id,
                         sign=sign
                     )
                     for term in invoice_payment_terms:
@@ -3214,6 +3215,7 @@ class AccountMove(models.Model):
                         **vals,
                         'amount_currency': 0.0,
                         'balance': 0.0,
+                        'display_type': 'epd',  # Used to compute tax_tag_invert for early payment discount lines
                     })
                     line_vals['amount_currency'] += vals['amount_currency']
                     line_vals['balance'] += vals['balance']
@@ -3943,7 +3945,7 @@ class AccountMove(models.Model):
             button_access = {'url': access_link} if access_link else {}
             recipient_group = (
                 'additional_intended_recipient',
-                lambda pdata: pdata['id'] in local_msg_vals.get('partner_ids', []) and pdata['id'] != self.partner_id.id,
+                lambda pdata: pdata['id'] in local_msg_vals.get('partner_ids', []) and pdata['id'] != self.partner_id.id and pdata['type'] != 'user',
                 {
                     'has_button_access': True,
                     'button_access': button_access,

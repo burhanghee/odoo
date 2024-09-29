@@ -10,8 +10,8 @@
 # Martin Trigaux, 2024
 # Wil Odoo, 2024
 # Ryoko Tsuda <ryoko@quartile.co>, 2024
-# Yoshi Tashiro (Quartile) <tashiro@roomsfor.hk>, 2024
 # Junko Augias, 2024
+# Yoshi Tashiro (Quartile) <tashiro@roomsfor.hk>, 2024
 # 
 msgid ""
 msgstr ""
@@ -19,7 +19,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-02-06 13:33+0000\n"
 "PO-Revision-Date: 2022-09-22 05:44+0000\n"
-"Last-Translator: Junko Augias, 2024\n"
+"Last-Translator: Yoshi Tashiro (Quartile) <tashiro@roomsfor.hk>, 2024\n"
 "Language-Team: Japanese (https://app.transifex.com/odoo/teams/41243/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3021,7 +3021,7 @@ msgstr ""
 "\n"
 "会計レポート税務リマインダ\n"
 "===============================\n"
-"このモジュールは、税務報告書が管理者に送信される準備ができた際の\n"
+"このモジュールは、税レポートが管理者に送信される準備ができた際の\n"
 "通知を追加します。\n"
 "    "
 
@@ -8933,7 +8933,7 @@ msgstr ""
 "\n"
 "このモジュールは以下で構成されています:\n"
 " - 一般的なイスラエルの勘定科目表\n"
-" - 税と税務申告書\n"
+" - 税と税レポート\n"
 " - 複数の財務ポジション\n"
 " "
 
@@ -8946,6 +8946,7 @@ msgid ""
 "    - a generic chart of accounts\n"
 "    - SARS VAT Ready Structure"
 msgstr ""
+"\n"
 "ZAでOdooを実行するために必要な最新の基本的な南アフリカのローカリゼーションです:\n"
 "================================================================================\n"
 "-一般的なチャートアカウント\n"
@@ -10716,7 +10717,7 @@ msgid ""
 "\n"
 "https://paymentservices.amazon.com/docs/EN/12.html"
 msgstr ""
-"# Amazon決済サービス\n"
+"# Amazon payment Services\n"
 "\n"
 "## 実装詳細\n"
 "\n"
@@ -10731,7 +10732,7 @@ msgstr ""
 "\n"
 "以下との統合を選択しています:\n"
 "[Redirection](https://paymentservices-reference.payfort.com/docs/api/build/index.html#redirection)\n"
-"APIは、Amazon決済サービスが2022年7月現在に提供している3つのゲートウェイのうち、当社のニーズに最も適したゲートウェイであるためです。\n"
+"APIは、Amazon payment Servicesが2022年7月現在に提供している3つのゲートウェイのうち、当社のニーズに最も適したゲートウェイであるためです。\n"
 "他のゲートウェイの詳細については、タスクの開発メモを参照して下さい。\n"
 "\n"
 "## 詳細をマージ\n"
@@ -17965,11 +17966,12 @@ msgid ""
 "%(country_code)s: the code of the country"
 msgstr ""
 "この国に属する住所に使用する表示形式。\n"
-"アドレスのすべてのフィールドでpythonスタイルの文字列パターンを使用できます(たとえば、'%(street)s'を使用してフィールド'street'を表示します)\n"
-"%(state_name)s:州の名前\n"
-"%(state_code )s:州のコード\n"
-"%(country_name)s:国の名前\n"
-"%(country_code)s:国のコード"
+"\n"
+"アドレスのすべてのフィールドでpythonスタイルの文字列パターンを使用できます(たとえば、'%(street)s' を使用してフィールド '町名番地' を表示します)\n"
+"%(state_name)s:州/都道府県の名前\n"
+"%(state_code)s:州/都道府県のコード\n"
+"%(country_name)s:国名\n"
+"%(country_code)s:国コード"
 
 #. module: base
 #. odoo-python
@@ -20128,7 +20130,7 @@ msgstr "ここから、あなたと連絡先にリンクされている全ての
 #. module: base
 #: model:ir.module.module,summary:base.module_sale_management
 msgid "From quotations to invoices"
-msgstr "見積もりから請求書まで"
+msgstr "見積から請求書まで"
 
 #. module: base
 #: model_terms:ir.ui.view,arch_db:base.ir_access_view_search
@@ -27244,7 +27246,7 @@ msgstr "Odooは生成されたPDFをマージできません。"
 msgid ""
 "Odoo is unable to merge the generated PDFs because of {num_errors} corrupted"
 " file(s)"
-msgstr ""
+msgstr "破損したファイル {num_errors} があるため、Odooは生成されたPDFをマージできません。"
 
 #. module: base
 #: model:ir.model.fields,help:base.field_ir_sequence__padding
@@ -28345,7 +28347,7 @@ msgstr "支払い-アカウント"
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_account_payment_invoice_online_payment_patch
 msgid "Payment - Account / Invoice Online Payment Patch"
-msgstr ""
+msgstr "支払 - アカウント / 請求書オンライン支払パッチ"
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_payment
@@ -35613,7 +35615,7 @@ msgstr "リードのWebチャットセッションを表示する"
 #. odoo-python
 #: code:addons/base/models/ir_actions_report.py:0
 msgid "View Problematic Record(s)"
-msgstr ""
+msgstr "問題のあるレコードを表示"
 
 #. module: base
 #. odoo-python

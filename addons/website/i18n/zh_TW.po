@@ -387,13 +387,16 @@ msgstr "25%"
 msgid ""
 "250 Executive Park Blvd, Suite 3400 <br/> San Francisco CA 94134 <br/>United"
 " States"
-msgstr "<br/>94134美國<br/>舊金山市行政公園大道250號之3400"
+msgstr ""
+"250 Executive Park Blvd, Suite 3400 <br/> San Francisco CA 94134 <br/>United"
+" States"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.template_footer_centered
 msgid ""
 "250 Executive Park Blvd, Suite 3400 • San Francisco CA 94134 • United States"
-msgstr "94134．美國舊金山市行政公園大道250號之3400"
+msgstr ""
+"250 Executive Park Blvd, Suite 3400 • San Francisco CA 94134 • United States"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_map_options
@@ -4567,7 +4570,7 @@ msgstr "關注我們"
 #: model_terms:ir.ui.view,arch_db:website.template_header_sidebar_oe_structure_header_sidebar_1
 #: model_terms:ir.ui.view,arch_db:website.template_header_vertical_oe_structure_header_vertical_1
 msgid "Follow us"
-msgstr "訂閱我們"
+msgstr "追蹤我們"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.snippet_options
@@ -6181,7 +6184,7 @@ msgstr "頁面背景顏色"
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_text_image
 msgid "Learn more"
-msgstr "知道更多"
+msgstr "了解更多"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_chart_options
@@ -9104,7 +9107,7 @@ msgstr "現在開始"
 #: model_terms:ir.ui.view,arch_db:website.s_tabs
 #: model_terms:ir.ui.view,arch_db:website.s_text_image
 msgid "Start with the customer – find out what they want and give it to them."
-msgstr "從顧客開始 – 找到他們想要什麼並提供他們."
+msgstr "由客戶工作開始：找出他們想要甚麼，盡量滿足他們的需要。"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_carousel
@@ -9907,7 +9910,7 @@ msgstr "要增加第四列，請使用每個塊的右圖示減小這三列的大
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_tabs
 msgid "To be successful your content needs to be useful to your readers."
-msgstr "要成功，你的內容必須對讀者有用。"
+msgstr "成功的內容必須對讀者有用。"
 
 #. module: website
 #: model_terms:digest.tip,tip_description:website.digest_tip_website_2
@@ -10653,7 +10656,7 @@ msgstr "我們就快完成了！"
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_references
 msgid "We are in good company."
-msgstr "有很多人都是這樣。"
+msgstr "一致好評"
 
 #. module: website
 #. odoo-javascript
@@ -11065,7 +11068,7 @@ msgstr "節錄一段您客戶的話.引用他人的話是個建立產品或服�
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_tabs
 msgid "Write one or two paragraphs describing your product or services."
-msgstr "寫一兩段描述您的產品或服務的內容."
+msgstr "寫一兩段文字，描述你的產品或服務。"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_image_text
@@ -11073,7 +11076,7 @@ msgstr "寫一兩段描述您的產品或服務的內容."
 msgid ""
 "Write one or two paragraphs describing your product or services. To be "
 "successful your content needs to be useful to your readers."
-msgstr "寫一兩段描述您的產品或服務的文件.要取得成功，您的內容需要對您的讀者有用."
+msgstr "寫一兩段文字，描述你的產品或服務。成功的內容必須對讀者有用。"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_cover
@@ -11081,7 +11084,7 @@ msgid ""
 "Write one or two paragraphs describing your product, services or a specific "
 "feature.<br/> To be successful your content needs to be useful to your "
 "readers."
-msgstr "寫一兩段話描述你的產品、服務或特定的功能.<br/>這些話要有效，內容必須是對讀者有用的."
+msgstr "寫一兩段文字，描述你的產品或服務，或個別特色及功能。<br/>成功的內容必須對讀者有用。"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_features

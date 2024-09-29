@@ -28127,7 +28127,7 @@ msgstr "Odoo는 생성된 PDF를 병합할 수 없습니다."
 msgid ""
 "Odoo is unable to merge the generated PDFs because of {num_errors} corrupted"
 " file(s)"
-msgstr ""
+msgstr "{num_errors} 손상된 파일로 인해 생성된 PDF를 병합할 수 없습니다."
 
 #. module: base
 #: model:ir.model.fields,help:base.field_ir_sequence__padding
@@ -36588,7 +36588,7 @@ msgstr "영업제안 실시간 채팅 세션 보기"
 #. odoo-python
 #: code:addons/base/models/ir_actions_report.py:0
 msgid "View Problematic Record(s)"
-msgstr ""
+msgstr "문제가 있는 기록 보기"
 
 #. module: base
 #. odoo-python
